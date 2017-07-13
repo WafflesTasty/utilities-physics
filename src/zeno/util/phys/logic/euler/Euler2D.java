@@ -3,6 +3,7 @@ package zeno.util.phys.logic.euler;
 import zeno.util.algebra.tensors.vectors.fixed.Vector2;
 import zeno.util.phys.logic.Integrator2D;
 import zeno.util.phys.state.force.Force2D;
+import zeno.util.phys.state.objects.IPhysical2D;
 
 /**
  * The {@code Euler2D} class integrates using the {@code semi-implicit Euler method}.
@@ -20,7 +21,18 @@ public class Euler2D extends Integrator2D
 {	
 	private float aTotal;
 	private Vector2 fTotal;
-		
+	
+	/**
+	 * Creates a new {@code Euler2D}.
+	 * 
+	 * @param o  a target object
+	 * @see IPhysical2D
+	 */
+	public Euler2D(IPhysical2D o)
+	{
+		super(o);
+	}
+	
 	/**
 	 * Adds linear speed to the {@code Euler2D}.
 	 * 

@@ -3,6 +3,7 @@ package zeno.util.phys.logic.euler;
 import zeno.util.algebra.tensors.vectors.fixed.Vector3;
 import zeno.util.phys.logic.Integrator3D;
 import zeno.util.phys.state.force.Force3D;
+import zeno.util.phys.state.objects.IPhysical3D;
 
 /**
  * The {@code Euler3D} class integrates using the {@code semi-implicit Euler method}.
@@ -20,6 +21,17 @@ public class Euler3D extends Integrator3D
 {	
 	private Vector3 fTotal;
 
+	/**
+	 * Creates a new {@code Euler3D}.
+	 * 
+	 * @param o  a target object
+	 * @see IPhysical3D
+	 */
+	public Euler3D(IPhysical3D o)
+	{
+		super(o);
+	}
+	
 	/**
 	 * Calculates a drag vector caused by rotation.
 	 * 

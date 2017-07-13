@@ -21,63 +21,23 @@ public abstract class Integrator2D implements Integrator
 	private float vAngular;
 	private Vector2 vLinear;
 	
-	private Set<Force2D> forces;
 	private IPhysical2D object;
+	private Set<Force2D> forces;
 	
 	/**
 	 * Creates a new {@code Integrator2D}.
+	 * 
+	 * @param o  a target object
+	 * @see IPhysical2D
 	 */
-	public Integrator2D()
-	{
+	public Integrator2D(IPhysical2D o)
+	{		
 		forces = new HashSet<>();
 		vLinear = new Vector2();
 		vAngular = 0f;
+		
+		object = o;
 	}
-
-	/**
-	 * Returns the linear speed of the {@code Integrator2D}.
-	 * 
-	 * @return  the linear speed
-	 * @see Vector2
-	 */
-	public Vector2 LinSpeed()
-	{
-		return vLinear;
-	}
-	
-	/**
-	 * Returns the physical object of the {@code Integrator2D}.
-	 * 
-	 * @return  the integrator's object
-	 * @see IPhysical2D
-	 */
-	public IPhysical2D Object()
-	{
-		return object;
-	}
-	
-	/**
-	 * Returns the active forces of the {@code Integrator2D}.
-	 * 
-	 * @return  the integrator's forces
-	 * @see Force2D
-	 * @see Set
-	 */
-	public Set<Force2D> Forces()
-	{
-		return forces;
-	}
-	
-	/**
-	 * Returns the rotate speed of the {@code Integrator2D}.
-	 * 
-	 * @return  the rotate speed
-	 */
-	public float RotSpeed()
-	{
-		return vAngular;
-	}
-	
 			
 	/**
 	 * Changes the rotate speed of the {@code Integrator2D}.
@@ -131,5 +91,50 @@ public abstract class Integrator2D implements Integrator
 	public void add(Force2D force)
 	{
 		forces.add(force);
+	}
+
+
+	/**
+	 * Returns the forces of the {@code Integrator2D}.
+	 * 
+	 * @return  the integrator's forces
+	 * @see Force2D
+	 * @see Set
+	 */
+	public Set<Force2D> Forces()
+	{
+		return forces;
+	}
+	
+	/**
+	 * Returns the object of the {@code Integrator2D}.
+	 * 
+	 * @return  the integrator's object
+	 * @see IPhysical2D
+	 */
+	public IPhysical2D Object()
+	{
+		return object;
+	}
+	
+	/**
+	 * Returns the linear speed of the {@code Integrator2D}.
+	 * 
+	 * @return  the linear speed
+	 * @see Vector2
+	 */
+	public Vector2 LinSpeed()
+	{
+		return vLinear;
+	}
+	
+	/**
+	 * Returns the rotate speed of the {@code Integrator2D}.
+	 * 
+	 * @return  the rotate speed
+	 */
+	public float RotSpeed()
+	{
+		return vAngular;
 	}
 }

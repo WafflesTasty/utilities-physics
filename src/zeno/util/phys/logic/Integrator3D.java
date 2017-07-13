@@ -21,64 +21,23 @@ public abstract class Integrator3D implements Integrator
 	private Vector3 vLinear;
 	private Vector3 vAngular;
 	
-	private Set<Force3D> forces;
 	private IPhysical3D object;
+	private Set<Force3D> forces;
 	
 	/**
 	 * Creates a new {@code Integrator3D}.
+	 * 
+	 * @param o  a target object
+	 * @see IPhysical3D
 	 */
-	public Integrator3D()
+	public Integrator3D(IPhysical3D o)
 	{
 		forces = new HashSet<>();
 		vAngular = new Vector3();
 		vLinear = new Vector3();
-	}
-
-	/**
-	 * Returns the linear speed of the {@code Integrator3D}.
-	 * 
-	 * @return  the linear speed
-	 * @see Vector3
-	 */
-	public Vector3 LinSpeed()
-	{
-		return vLinear;
-	}
-	
-	/**
-	 * Returns the physical object of the {@code Integrator3D}.
-	 * 
-	 * @return  the integrator's object
-	 * @see IPhysical3D
-	 */
-	public IPhysical3D Object()
-	{
-		return object;
-	}
-	
-	/**
-	 * Returns the active forces of the {@code Integrator3D}.
-	 * 
-	 * @return  the integrator's forces
-	 * @see Force3D
-	 * @see Set
-	 */
-	public Set<Force3D> Forces()
-	{
-		return forces;
-	}
-	
-	/**
-	 * Returns the rotate speed of the {@code Integrator3D}.
-	 * 
-	 * @return  the rotate speed
-	 * @see Vector3
-	 */
-	public Vector3 RotSpeed()
-	{
-		return vAngular;
-	}
-	
+		
+		object = o;
+	}	
 			
 	/**
 	 * Changes the rotate speed of the {@code Integrator3D}.
@@ -133,5 +92,51 @@ public abstract class Integrator3D implements Integrator
 	public void add(Force3D force)
 	{
 		forces.add(force);
+	}
+
+	
+	/**
+	 * Returns the forces of the {@code Integrator3D}.
+	 * 
+	 * @return  the integrator's forces
+	 * @see Force3D
+	 * @see Set
+	 */
+	public Set<Force3D> Forces()
+	{
+		return forces;
+	}
+	
+	/**
+	 * Returns the object of the {@code Integrator3D}.
+	 * 
+	 * @return  the integrator's object
+	 * @see IPhysical3D
+	 */
+	public IPhysical3D Object()
+	{
+		return object;
+	}
+
+	/**
+	 * Returns the linear speed of the {@code Integrator3D}.
+	 * 
+	 * @return  the linear speed
+	 * @see Vector3
+	 */
+	public Vector3 LinSpeed()
+	{
+		return vLinear;
+	}
+	
+	/**
+	 * Returns the rotate speed of the {@code Integrator3D}.
+	 * 
+	 * @return  the rotate speed
+	 * @see Vector3
+	 */
+	public Vector3 RotSpeed()
+	{
+		return vAngular;
 	}
 }
