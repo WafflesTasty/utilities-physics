@@ -77,12 +77,23 @@ public class Euler2D extends Integrator2D
 		setRotSpeed(RotSpeed() + v);
 	}
 	
+	
+	protected void rotateFor(float ang)
+	{
+		Object().rotateFor(ang);
+	}
+	
+	protected void moveFor(Vector2 v)
+	{
+		Object().moveFor(v);
+	}
+	
 	@Override
-	public void update(long delta)
+	public void update(long dt)
 	{			
 		// Update the target object.
-		Object().moveFor(LinSpeed().times(delta));
-		Object().rotateFor(RotSpeed() * delta);
+		moveFor(LinSpeed().times(dt));
+		rotateFor(RotSpeed() * dt);
 		
 		
 		// Calculate the linear force.
@@ -93,7 +104,7 @@ public class Euler2D extends Integrator2D
 		}
 		
 		// Update the linear velocity.
-		float dMass = delta / Object().Mass();
+		float dMass = dt / Object().Mass();
 		addLinSpeed(fTotal.times(dMass));
 		
 		
@@ -105,7 +116,7 @@ public class Euler2D extends Integrator2D
 		}
 		
 		// Update the angular velocity.
-		float dInert = delta / Object().Inertia();
+		float dInert = dt / Object().Inertia();
 		addRotSpeed(aTotal * dInert);
 	}
 }

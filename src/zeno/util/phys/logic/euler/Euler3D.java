@@ -31,6 +31,28 @@ public class Euler3D extends Integrator3D
 	{
 		super(o);
 	}
+		
+	/**
+	 * Adds linear speed to the {@code Euler3D}.
+	 * 
+	 * @param v  a speed vector to add
+	 * @see Vector3
+	 */
+	public void addLinSpeed(Vector3 v)
+	{
+		setLinSpeed(LinSpeed().plus(v));
+	}
+	
+	/**
+	 * Adds rotate speed to the {@code Euler3D}.
+	 * 
+	 * @param v  a speed vector to add
+	 * @see Vector3
+	 */
+	public void addRotSpeed(Vector3 v)
+	{
+		setRotSpeed(RotSpeed().plus(v));
+	}
 	
 	/**
 	 * Calculates a drag vector caused by rotation.
@@ -55,35 +77,24 @@ public class Euler3D extends Integrator3D
 	{
 		return new Vector3();
 	}
+		
 	
-	/**
-	 * Adds rotate speed to the {@code Euler3D}.
-	 * 
-	 * @param v  a speed vector to add
-	 * @see Vector3
-	 */
-	public void addAngSpeed(Vector3 v)
+	protected void rotateFor(Vector3 v)
 	{
-		setRotSpeed(RotSpeed().plus(v));
+		Object().rotateFor(v);
 	}
 	
-	/**
-	 * Adds linear speed to the {@code Euler3D}.
-	 * 
-	 * @param v  a speed vector to add
-	 * @see Vector3
-	 */
-	public void addLinSpeed(Vector3 v)
+	protected void moveFor(Vector3 v)
 	{
-		setLinSpeed(LinSpeed().plus(v));
+		Object().moveFor(v);
 	}
 	
 	@Override
-	public void update(long delta)
+	public void update(long dt)
 	{			
 		// Update the target object.
-		Object().moveFor(LinSpeed().times(delta));
-		Object().rotateFor(RotSpeed().times(delta));
+		moveFor(LinSpeed().times(dt));
+		rotateFor(RotSpeed().times(dt));
 		
 		
 		// Calculate the linear force.
@@ -94,7 +105,7 @@ public class Euler3D extends Integrator3D
 		}
 		
 		// Update the linear velocity.
-		float dMass = delta / Object().Mass();
+		float dMass = dt / Object().Mass();
 		addLinSpeed(fTotal.times(dMass));
 		
 		
@@ -106,7 +117,7 @@ public class Euler3D extends Integrator3D
 		}
 		
 		// Update the angular velocity.
-		float dInert = delta / Object().Inertia();
-		addAngSpeed(fTotal.times(dInert));
+		float dInert = dt / Object().Inertia();
+		addRotSpeed(fTotal.times(dInert));
 	}
 }
