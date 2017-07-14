@@ -2,7 +2,6 @@ package zeno.util.phys.logic.euler;
 
 import zeno.util.algebra.tensors.vectors.fixed.Vector3;
 import zeno.util.phys.logic.Integrator3D;
-import zeno.util.phys.state.force.Force3D;
 import zeno.util.phys.state.objects.IPhysical3D;
 
 /**
@@ -104,10 +103,7 @@ public class Euler3D extends Integrator3D
 		
 		// Calculate the linear force.
 		fTotal = calcLinDrag(LinSpeed());
-		for(Force3D force : Forces())
-		{
-			fTotal = fTotal.plus(force.Vector());
-		}
+		fTotal = fTotal.plus(TotalForce());
 		
 		// Update the linear velocity.
 		float dMass = dt / Object().Mass();
@@ -116,10 +112,7 @@ public class Euler3D extends Integrator3D
 		
 		// Calculate the angular force.
 		fTotal = calcRotDrag(RotSpeed());
-		for(Force3D force : Forces())
-		{
-			fTotal = fTotal.plus(force.Torque());
-		}
+		fTotal = fTotal.plus(TotalTorque());
 		
 		// Update the angular velocity.
 		float dInert = dt / Object().Inertia();

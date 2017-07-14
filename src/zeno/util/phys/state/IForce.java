@@ -3,7 +3,7 @@ package zeno.util.phys.state;
 import zeno.util.algebra.tensors.vectors.Vector;
 
 /**
- * The {@code IForce} interface defines a physical force that interacts on objects.
+ * The {@code IForce} interface defines a physical force that acts on objects.
  *
  * @author Zeno
  * @since Jul 12, 2017

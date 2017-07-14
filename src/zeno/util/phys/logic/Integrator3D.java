@@ -5,6 +5,7 @@ import java.util.Set;
 
 import zeno.util.algebra.tensors.vectors.fixed.Vector3;
 import zeno.util.phys.state.force.Force3D;
+import zeno.util.phys.state.force.Torque3D;
 import zeno.util.phys.state.objects.IPhysical3D;
 
 /**
@@ -23,6 +24,7 @@ public abstract class Integrator3D implements Integrator
 	
 	private IPhysical3D object;
 	private Set<Force3D> forces;
+	private Set<Torque3D> torques;
 	
 	/**
 	 * Creates a new {@code Integrator3D}.
@@ -33,6 +35,7 @@ public abstract class Integrator3D implements Integrator
 	public Integrator3D(IPhysical3D o)
 	{
 		forces = new HashSet<>();
+		torques = new HashSet<>();
 		vAngular = new Vector3();
 		vLinear = new Vector3();
 		
@@ -73,6 +76,17 @@ public abstract class Integrator3D implements Integrator
 	}
 
 	/**
+	 * Removes a torque from the {@code Integrator3D}.
+	 * 
+	 * @param torque  a torque to remove
+	 * @see Torque3D
+	 */
+	public void remove(Torque3D torque)
+	{
+		torques.remove(torque);
+	}
+	
+	/**
 	 * Removes a force from the {@code Integrator3D}.
 	 * 
 	 * @param force  a force to remove
@@ -84,6 +98,17 @@ public abstract class Integrator3D implements Integrator
 	}
 
 	/**
+	 * Adds a torque to the {@code Integrator3D}.
+	 * 
+	 * @param torque  a torque to add
+	 * @see Torque3D
+	 */
+	public void add(Torque3D torque)
+	{
+		torques.add(torque);
+	}
+	
+	/**
 	 * Adds a force to the {@code Integrator3D}.
 	 * 
 	 * @param force  a force to add
@@ -94,6 +119,59 @@ public abstract class Integrator3D implements Integrator
 		forces.add(force);
 	}
 
+	
+	/**
+	 * Returns the total force in the {@code Integrator3D}.
+	 * 
+	 * @return  the total active force
+	 * @see Vector3
+	 */
+	public Vector3 TotalForce()
+	{
+		Vector3 total = new Vector3();
+		
+		for(Force3D force : Forces())
+		{
+			total = total.plus(force.Vector());
+		}
+		
+		return total;
+	}
+	
+	/**
+	 * Returns the total torque in the {@code Integrator3D}.
+	 * 
+	 * @return  the total active torque
+	 * @see Vector3
+	 */
+	public Vector3 TotalTorque()
+	{
+		Vector3 total = new Vector3();
+		
+		for(Force3D force : Forces())
+		{
+			total = total.plus(force.Torque());
+		}
+		
+		for(Torque3D torque : Torques())
+		{
+			total = total.plus(torque.Vector());
+		}
+		
+		return total;
+	}
+	
+	/**
+	 * Returns the torques of the {@code Integrator3D}.
+	 * 
+	 * @return  the integrator's torques
+	 * @see Torque3D
+	 * @see Set
+	 */
+	public Set<Torque3D> Torques()
+	{
+		return torques;
+	}
 	
 	/**
 	 * Returns the forces of the {@code Integrator3D}.
