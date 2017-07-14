@@ -79,6 +79,11 @@ public class Euler3D extends Integrator3D
 	}
 		
 	
+	protected void rotateFor(Vector3 v, float rad)
+	{
+		Object().rotateFor(v, rad);
+	}
+	
 	protected void rotateFor(Vector3 v)
 	{
 		Object().rotateFor(v);
