@@ -95,7 +95,7 @@ public class Euler3D extends Integrator3D
 	}
 	
 	@Override
-	public void update(long dt)
+	public void onUpdate(long dt)
 	{			
 		// Update the target object.
 		moveFor(LinSpeed().times(dt));

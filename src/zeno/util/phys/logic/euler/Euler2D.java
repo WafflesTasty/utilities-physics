@@ -89,7 +89,7 @@ public class Euler2D extends Integrator2D
 	}
 	
 	@Override
-	public void update(long dt)
+	public void onUpdate(long dt)
 	{			
 		// Update the target object.
 		moveFor(LinSpeed().times(dt));

@@ -14,5 +14,5 @@ public interface Integrator
 	 * 
 	 * @param dt  a delta time
 	 */
-	public abstract void update(long dt);
+	public abstract void onUpdate(long dt);
 }
