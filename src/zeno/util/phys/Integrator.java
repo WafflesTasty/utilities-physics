@@ -1,4 +1,4 @@
-package zeno.util.phys.logic;
+package zeno.util.phys;
 
 /**
  * The {@code Integrator} interface defines a physics integrator.
@@ -7,6 +7,7 @@ package zeno.util.phys.logic;
  * @since Jul 12, 2017
  * @version 1.0
  */
+@FunctionalInterface
 public interface Integrator
 {
 	/**
