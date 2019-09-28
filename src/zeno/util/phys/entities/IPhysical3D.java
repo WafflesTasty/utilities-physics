@@ -16,5 +16,6 @@ import zeno.util.phys.IPhysical;
  */
 public interface IPhysical3D extends IPhysical, IShapeable3D
 {
-	// NOT APPLICABLE
+	@Override
+	public abstract Dynamics3D Dynamics();
 }
