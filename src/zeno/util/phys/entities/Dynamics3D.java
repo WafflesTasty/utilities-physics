@@ -31,6 +31,9 @@ public class Dynamics3D implements IDynamics
 	public Dynamics3D(IPhysical3D tgt)
 	{
 		target = tgt;
+		
+		vLin = new Vector3();
+		vRot = new Vector3();
 	}
 
 	/**

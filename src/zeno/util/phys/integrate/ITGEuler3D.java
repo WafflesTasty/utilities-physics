@@ -1,12 +1,13 @@
 package zeno.util.phys.integrate;
 
 import zeno.util.algebra.linear.vector.Vector;
-import zeno.util.phys.IPhysical;
+import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.phys.Integrator;
+import zeno.util.phys.entities.IPhysical3D;
 import zeno.util.tools.patterns.Decorator;
 
 /**
- * The {@code ITGEuler} interface integrates using the {@code semi-implicit Euler method}.
+ * The {@code ITGEuler3D} interface integrates 3D objects using the {@code semi-implicit Euler method}.
  *
  * @author Zeno
  * @since Sep 28, 2019
@@ -14,20 +15,20 @@ import zeno.util.tools.patterns.Decorator;
  * 
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Wikipedia - Euler Method</a>
+ * @see IPhysical3D
  * @see Integrator
- * @see IPhysical
  * @see Decorator
  */
-public interface ITGEuler extends Decorator<IPhysical>, Integrator
+public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
 {	
 	@Override
 	public default void onUpdate(long dt)
 	{			
-		IPhysical tgt = Delegate();
+		IPhysical3D tgt = Delegate();
 
 		// Compute the new distance vectors.
-		Vector vLin = tgt.LinSpeed().times(dt);
-		Vector vRot = tgt.RotSpeed().times(dt);
+		Vector3 vLin = tgt.LinSpeed().times(dt);
+		Vector3 vRot = tgt.RotSpeed().times(dt);
 		
 		// Update the state of the object.
 		tgt.rotateFor(vRot);
@@ -52,7 +53,7 @@ public interface ITGEuler extends Decorator<IPhysical>, Integrator
 	 * 
 	 * @see Vector
 	 */
-	public abstract Vector Torque();
+	public abstract Vector3 Torque();
 
 	/**
 	 * Returns the total force in the {@code ITGEuler}.
@@ -62,5 +63,5 @@ public interface ITGEuler extends Decorator<IPhysical>, Integrator
 	 * 
 	 * @see Vector
 	 */
-	public abstract Vector Force();
+	public abstract Vector3 Force();
 }
