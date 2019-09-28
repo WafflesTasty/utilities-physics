@@ -1,4 +1,4 @@
-package zeno.util.phys.integrators;
+package zeno.util.phys.integrate;
 
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.phys.IDynamics;
