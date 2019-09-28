@@ -16,6 +16,8 @@ import zeno.util.tools.patterns.Decorator;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Wikipedia - Euler Method</a>
  * @see Integrator
+ * @see IPhysical
+ * @see Decorator
  */
 public interface ITGEuler extends Decorator<IPhysical>, Integrator
 {	
