@@ -1,5 +1,6 @@
 package zeno.util.phys.entities;
 
+import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.geom.collidables.IShapeable3D;
 import zeno.util.phys.IPhysical;
 
@@ -18,4 +19,17 @@ public interface IPhysical3D extends IPhysical, IShapeable3D
 {
 	@Override
 	public abstract Dynamics3D Dynamics();
+
+	
+	@Override
+	public default Vector3 LinSpeed()
+	{
+		return (Vector3) IPhysical.super.LinSpeed();
+	}
+	
+	@Override
+	public default Vector3 RotSpeed()
+	{
+		return (Vector3) IPhysical.super.RotSpeed();
+	}
 }
