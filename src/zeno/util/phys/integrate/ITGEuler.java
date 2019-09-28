@@ -1,7 +1,6 @@
 package zeno.util.phys.integrate;
 
 import zeno.util.algebra.linear.vector.Vector;
-import zeno.util.phys.IDynamics;
 import zeno.util.phys.IPhysical;
 import zeno.util.phys.Integrator;
 import zeno.util.tools.patterns.Decorator;
@@ -24,25 +23,24 @@ public interface ITGEuler extends Decorator<IPhysical>, Integrator
 	@Override
 	public default void onUpdate(long dt)
 	{			
-		IDynamics dyns = Delegate().Dynamics();
-		
-		
+		IPhysical tgt = Delegate();
+
 		// Compute the new distance vectors.
-		Vector vLin = dyns.LinSpeed().times(dt);
-		Vector vRot = dyns.RotSpeed().times(dt);
+		Vector vLin = tgt.LinSpeed().times(dt);
+		Vector vRot = tgt.RotSpeed().times(dt);
 		
 		// Update the state of the object.
-		Delegate().rotateFor(vRot);
-		Delegate().moveFor(vLin);
+		tgt.rotateFor(vRot);
+		tgt.moveFor(vLin);
 		
 		
 		// Compute the velocity scales.
-		float sLin = dt / dyns.Mass();
-		float sRot = dt / dyns.Inertia();
+		float sLin = dt / tgt.Mass();
+		float sRot = dt / tgt.Inertia();
 		
 		// Update the object's velocity.
-		dyns.addRotSpeed(Torque().times(sRot));
-		dyns.addLinSpeed(Force().times(sLin));
+		tgt.rotateSpeedFor(Torque().times(sRot));
+		tgt.linearSpeedFor(Force().times(sLin));
 	}
 	
 	
