@@ -1,4 +1,4 @@
-package zeno.util.phys;
+package zeno.util.phys.utilities;
 
 import zeno.util.tools.Floats;
 
@@ -9,7 +9,7 @@ import zeno.util.tools.Floats;
  * @since Oct 16, 2014
  * @version 1.0
  */
-public abstract class Physics
+public final class Physics
 {
 	/**
 	 * Defines the universal gravity constant.

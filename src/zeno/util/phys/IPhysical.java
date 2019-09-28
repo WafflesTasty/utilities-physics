@@ -1,7 +1,6 @@
 package zeno.util.phys;
 
 import zeno.util.geom.collidables.IShapeable;
-import zeno.util.geom.collidables.affine.Point;
 
 /**
  * The {@code IPhysical} interface defines an object with Newtonian physics properties.
@@ -16,29 +15,33 @@ import zeno.util.geom.collidables.affine.Point;
 public interface IPhysical extends IShapeable
 {	
 	/**
-	 * Returns the mass point of the {@code IPhysical}.
+	 * Returns the dynamics of the {@code IPhysical}.
 	 * 
-	 * @return  a mass point
+	 * @return  the object dynamics
 	 * 
 	 * 
-	 * @see Point
+	 * @see IDynamics
 	 */
-	public default Point MassPoint()
-	{
-		return new Point(Origin(), Mass());
-	}
+	public abstract IDynamics Dynamics();
+	
 	
 	/**
 	 * Returns the inertia of the {@code IPhysical}.
 	 * 
 	 * @return  an object inertia
 	 */
-	public abstract float Inertia();
+	public default float Inertia()
+	{
+		return Dynamics().Inertia();
+	}
 	
 	/**
 	 * Returns the mass of the {@code IPhysical}.
 	 * 
 	 * @return  an object mass
 	 */
-	public abstract float Mass();
+	public default float Mass()
+	{
+		return Dynamics().Mass();
+	}
 }
