@@ -34,7 +34,7 @@ public interface IPhysical extends IShapeable
 	 * 
 	 * @see Vector
 	 */
-	public default void linearSpeedTo(Vector v)
+	public default void setLinSpeed(Vector v)
 	{
 		Dynamics().setLinSpeed(v);
 	}
@@ -47,7 +47,7 @@ public interface IPhysical extends IShapeable
 	 * 
 	 * @see Vector
 	 */
-	public default void rotateSpeedTo(Vector v)
+	public default void setRotSpeed(Vector v)
 	{
 		Dynamics().setRotSpeed(v);
 	}
@@ -61,9 +61,9 @@ public interface IPhysical extends IShapeable
 	 * 
 	 * @see Vector
 	 */
-	public default void linearSpeedFor(Vector v)
+	public default void addLinSpeed(Vector v)
 	{
-		linearSpeedTo(LinSpeed().plus(v));
+		setLinSpeed(LinSpeed().plus(v));
 	}
 	
 	/**
@@ -74,9 +74,9 @@ public interface IPhysical extends IShapeable
 	 * 
 	 * @see Vector
 	 */
-	public default void rotateSpeedFor(Vector v)
+	public default void addRotSpeed(Vector v)
 	{
-		rotateSpeedTo(RotSpeed().plus(v));
+		setRotSpeed(RotSpeed().plus(v));
 	}
 	
 	
