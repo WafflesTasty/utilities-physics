@@ -111,7 +111,8 @@ public class ITGAction extends SteppedAction
 		long tNew = System.currentTimeMillis();
 		long tFrame = tNew - tCurr;
 		tCurr = tNew;
-       
+		
+
         tAcc += tFrame;
         while(tAcc >= delta)
         {
