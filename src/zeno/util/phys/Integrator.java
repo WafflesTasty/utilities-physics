@@ -13,7 +13,7 @@ public interface Integrator
 	/**
 	 * Updates the state of the {@code Integrator}.
 	 * 
-	 * @param dt  a delta time
+	 * @param dt  a delta time in ms
 	 */
 	public abstract void onUpdate(long dt);
 }

@@ -1,7 +1,9 @@
 package zeno.util.phys.entities;
 
 import zeno.util.algebra.linear.vector.Vector;
-import zeno.util.algebra.linear.vector.fixed.Vector3;
+import zeno.util.algebra.linear.vector.fixed.Vector2;
+import zeno.util.geom.utilities.spin.Spin;
+import zeno.util.geom.utilities.spin.Spin2D;
 import zeno.util.phys.IDynamics;
 
 /**
@@ -16,8 +18,10 @@ import zeno.util.phys.IDynamics;
  */
 public class Dynamics2D implements IDynamics
 {
+	private Vector2 vLin;
 	private float inert, mass;
-	private Vector3 vLin, vRot;
+	private Spin2D vRot;
+	
 	private IPhysical2D target;
 	
 	/**
@@ -30,6 +34,8 @@ public class Dynamics2D implements IDynamics
 	 */
 	public Dynamics2D(IPhysical2D tgt)
 	{
+		vLin = new Vector2();
+		vRot = new Spin2D();
 		target = tgt;
 	}
 
@@ -60,26 +66,27 @@ public class Dynamics2D implements IDynamics
 		return target;
 	}
 	
+	
 	@Override
 	public void setLinSpeed(Vector v)
 	{
-		vLin = (Vector3) v;
+		vLin = (Vector2) v;
 	}
 
 	@Override
-	public void setRotSpeed(Vector v)
+	public void setRotSpeed(Spin s)
 	{
-		vRot = (Vector3) v;
+		vRot = (Spin2D) s;
 	}
 
 	@Override
-	public Vector3 LinSpeed()
+	public Vector2 LinSpeed()
 	{
 		return vLin;
 	}
 
 	@Override
-	public Vector3 RotSpeed()
+	public Spin2D RotSpeed()
 	{
 		return vRot;
 	}

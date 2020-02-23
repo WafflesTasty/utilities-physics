@@ -2,6 +2,7 @@ package zeno.util.phys;
 
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.geom.collidables.IShapeable;
+import zeno.util.geom.utilities.spin.Spin;
 
 /**
  * The {@code IPhysical} interface defines an object with Newtonian physics properties.
@@ -27,9 +28,22 @@ public interface IPhysical extends IShapeable
 	
 	
 	/**
-	 * Changes the rotate speed vector of the {@code IPhysical}.
+	 * Changes the rotate speed of the {@code IPhysical}.
 	 * 
-	 * @param v  a rotate velocity
+	 * @param s  a spin velocity
+	 * 
+	 * 
+	 * @see Spin
+	 */
+	public default void setRotSpeed(Spin s)
+	{
+		Dynamics().setRotSpeed(s);
+	}
+	
+	/**
+	 * Changes the linear speed of the {@code IPhysical}.
+	 * 
+	 * @param v  a linear velocity
 	 * 
 	 * 
 	 * @see Vector
@@ -38,23 +52,9 @@ public interface IPhysical extends IShapeable
 	{
 		Dynamics().setLinSpeed(v);
 	}
-	
+		
 	/**
-	 * Changes the rotate speed vector of the {@code IPhysical}.
-	 * 
-	 * @param v  a rotate velocity
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public default void setRotSpeed(Vector v)
-	{
-		Dynamics().setRotSpeed(v);
-	}
-	
-	
-	/**
-	 * Adds a linear speed vector to the {@code IPhysical}.
+	 * Adds a linear speed to the {@code IPhysical}.
 	 * 
 	 * @param v  a linear velocity
 	 * 
@@ -63,27 +63,40 @@ public interface IPhysical extends IShapeable
 	 */
 	public default void addLinSpeed(Vector v)
 	{
-		setLinSpeed(LinSpeed().plus(v));
+		Dynamics().addLinSpeed(v);
 	}
 	
 	/**
-	 * Adds a rotate speed vector to the {@code IPhysical}.
+	 * Adds a rotate speed to the {@code IPhysical}.
 	 * 
-	 * @param v  a rotate velocity
+	 * @param s  a spin velocity
 	 * 
 	 * 
 	 * @see Vector
 	 */
-	public default void addRotSpeed(Vector v)
+	public default void addRotSpeed(Spin s)
 	{
-		setRotSpeed(RotSpeed().plus(v));
+		Dynamics().addRotSpeed(s);
 	}
 	
 	
 	/**
+	 * Returns the rotate speed of the {@code IPhysical}.
+	 * 
+	 * @return  a rotate velocity
+	 * 
+	 * 
+	 * @see Spin
+	 */
+	public default Spin RotSpeed()
+	{
+		return Dynamics().RotSpeed();
+	}
+	
+	/**
 	 * Returns the linear speed of the {@code IPhysical}.
 	 * 
-	 * @return  a linear speed vector
+	 * @return  a linear velocity
 	 * 
 	 * 
 	 * @see Vector
@@ -92,20 +105,7 @@ public interface IPhysical extends IShapeable
 	{
 		return Dynamics().LinSpeed();
 	}
-	
-	/**
-	 * Returns the rotate speed of the {@code IPhysical}.
-	 * 
-	 * @return  a rotate speed vector
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public default Vector RotSpeed()
-	{
-		return Dynamics().RotSpeed();
-	}
-	
+		
 	/**
 	 * Returns the inertia of the {@code IPhysical}.
 	 * 

@@ -2,6 +2,7 @@ package zeno.util.phys;
 
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.geom.collidables.affine.Point;
+import zeno.util.geom.utilities.spin.Spin;
 import zeno.util.tools.patterns.Decorator;
 
 /**
@@ -32,9 +33,22 @@ public interface IDynamics extends Decorator<IPhysical>
 	
 	
 	/**
+	 * Adds rotate speed to the {@code IDynamics}.
+	 * 
+	 * @param s  a rotate velocity
+	 * 
+	 * 
+	 * @see Spin
+	 */
+	public default void addRotSpeed(Spin s)
+	{
+		setRotSpeed(s.compose(RotSpeed()));
+	}
+	
+	/**
 	 * Adds linear speed to the {@code IDynamics}.
 	 * 
-	 * @param v  a speed vector to add
+	 * @param v  a linear velocity
 	 * 
 	 * 
 	 * @see Vector
@@ -43,24 +57,11 @@ public interface IDynamics extends Decorator<IPhysical>
 	{
 		setLinSpeed(LinSpeed().plus(v));
 	}
-	
-	/**
-	 * Adds rotate speed to the {@code IDynamics}.
-	 * 
-	 * @param v  a speed vector to add
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public default void addRotSpeed(Vector v)
-	{
-		setRotSpeed(RotSpeed().plus(v));
-	}
-	
+		
 	/**
 	 * Changes linear speed of the {@code IDynamics}.
 	 * 
-	 * @param v  a speed vector to set
+	 * @param v  a linear velocity
 	 * 
 	 * 
 	 * @see Vector
@@ -70,34 +71,34 @@ public interface IDynamics extends Decorator<IPhysical>
 	/**
 	 * Changes rotate speed of the {@code IDynamics}.
 	 * 
-	 * @param v  a speed vector to set
+	 * @param s  a rotate velocity
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Spin
 	 */
-	public abstract void setRotSpeed(Vector v);
+	public abstract void setRotSpeed(Spin s);
 	
+	
+	/**
+	 * Returns the rotate speed of the {@code IDynamics}.
+	 * 
+	 * @return  a rotate velocity
+	 * 
+	 * 
+	 * @see Spin
+	 */
+	public abstract Spin RotSpeed();
 	
 	/**
 	 * Returns the linear speed of the {@code IDynamics}.
 	 * 
-	 * @return  a linear speed vector
+	 * @return  a linear velocity
 	 * 
 	 * 
 	 * @see Vector
 	 */
 	public abstract Vector LinSpeed();
 	
-	/**
-	 * Returns the rotate speed of the {@code IDynamics}.
-	 * 
-	 * @return  a rotate speed vector
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector RotSpeed();
-
 	/**
 	 * Returns the inertia of the {@code IDynamics}.
 	 * 

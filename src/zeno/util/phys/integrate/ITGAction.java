@@ -1,10 +1,10 @@
-package zeno.util.phys.integrate.actions;
+package zeno.util.phys.integrate;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import zeno.util.phys.Integrator;
-import zeno.util.tools.helper.actions.SteppedAction;
+import zeno.util.tools.helper.tasks.SteppedAction;
 
 /**
  * The {@code ITGAction} class executes physics integrators
@@ -85,7 +85,7 @@ public class ITGAction extends SteppedAction
 
 	
 	@Override
-	public void onStart()
+	public void onResume()
 	{
 		tCurr = System.currentTimeMillis();
 	}

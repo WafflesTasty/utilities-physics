@@ -1,14 +1,15 @@
 package zeno.util.phys.integrate;
 
 import zeno.util.algebra.linear.vector.Vector;
+import zeno.util.algebra.linear.vector.fixed.Vector2;
 import zeno.util.algebra.linear.vector.fixed.Vector3;
-import zeno.util.geom.utilities.spin.Spin3D;
+import zeno.util.geom.utilities.spin.Spin2D;
 import zeno.util.phys.Integrator;
-import zeno.util.phys.entities.IPhysical3D;
+import zeno.util.phys.entities.IPhysical2D;
 import zeno.util.tools.patterns.Decorator;
 
 /**
- * The {@code ITGEuler3D} interface integrates 3D objects using the {@code semi-implicit Euler method}.
+ * The {@code ITGEuler2D} interface integrates 2D objects using the {@code semi-implicit Euler method}.
  *
  * @author Zeno
  * @since Sep 28, 2019
@@ -16,25 +17,24 @@ import zeno.util.tools.patterns.Decorator;
  * 
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Wikipedia - Euler Method</a>
- * @see IPhysical3D
+ * @see IPhysical2D
  * @see Integrator
  * @see Decorator
  */
-public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
+public interface ITGEuler2D extends Decorator<IPhysical2D>, Integrator
 {	
 	@Override
 	public default void onUpdate(long dt)
 	{			
-		IPhysical3D tgt = Delegate();
+		IPhysical2D tgt = Delegate();
 
 		// Compute the new distance vectors.
-		Vector3 vLin = tgt.LinSpeed().times(dt / 1000f);
-		Spin3D vRot = tgt.RotSpeed().times(dt / 1000f);
-		
+		Vector2 vLin = tgt.LinSpeed().times(dt / 1000f);
+		Spin2D vRot = tgt.RotSpeed().times(dt / 1000f);
+
 		// Update the state of the object.
 		tgt.rotateFor(vRot);
 		tgt.moveFor(vLin);
-		
 		
 		// Compute the velocity scales.
 		float sLin = dt / tgt.Mass();
