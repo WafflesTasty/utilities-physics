@@ -11,7 +11,23 @@ package zeno.util.phys;
 public interface Integrator
 {
 	/**
-	 * Updates the state of the {@code Integrator}.
+	 * Event raised on booting the {@code Integrator}.
+	 */
+	public default void onBoot()
+	{
+		// NOT APPLICABLE
+	}
+	
+	/**
+	 * Event raised on disposing the {@code Integrator}.
+	 */
+	public default void onDispose()
+	{
+		// NOT APPLICABLE
+	}
+	
+	/**
+	 * Event raised on updating the {@code Integrator}.
 	 * 
 	 * @param dt  a delta time in ms
 	 */

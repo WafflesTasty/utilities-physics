@@ -23,13 +23,13 @@ import zeno.util.tools.helper.tasks.SteppedAction;
  * @see Integrator
  * @see Iterable
  */
-public class ITGAction<I extends Integrator> extends SteppedAction implements Iterable<I>
+public class ITGAction<I extends Integrator> extends SteppedAction
 {
 	private static final long DEF_DELTA = 16;
 
 	
-	private long tCurr, tAcc, delta;
 	private Set<I> physics;
+	private long tCurr, tAcc, delta;
 
 	/**
 	 * Creates a new {@code ITGAction}.
@@ -54,44 +54,42 @@ public class ITGAction<I extends Integrator> extends SteppedAction implements It
 	/**
 	 * Adds an integrator to the {@code ITGAction}.
 	 * 
-	 * @param integrator  an integrator to add
+	 * @param ig  an integrator to add
 	 */
-	public void add(I integrator)
+	public void add(I ig)
 	{
-		physics.add(integrator);
+		physics.add(ig);
+		ig.onBoot();
 	}
 	
 	/**
 	 * Removes an integrator from the {@code ITGAction}.
 	 * 
-	 * @param integrator  an integrator to remove
+	 * @param ig  an integrator to remove
 	 * 
 	 * 
 	 * @see Integrator
 	 */
-	public void remove(I integrator)
+	public void remove(I ig)
 	{
-		physics.remove(integrator);
+		physics.remove(ig);
+		ig.onDispose();
 	}
 	
 	/**
-	 * Changes the delta of the {@code ITGAction}.
+	 * Returns the integrators of the {@code ITGAction}.
 	 * 
-	 * @param delta  a new delta
+	 * @return  a set of integrators
+	 * 
+	 * 
+	 * @see Set
 	 */
-	public void setDelta(long delta)
+	public Set<I> Integrators()
 	{
-		this.delta = delta;
+		return physics;
 	}
+	
 
-	
-	@Override
-	public Iterator<I> iterator()
-	{
-		return physics.iterator();
-	}
-	
-	
 	@Override
 	public void onResume()
 	{
@@ -101,15 +99,16 @@ public class ITGAction<I extends Integrator> extends SteppedAction implements It
 	@Override
 	public void onStep()
 	{
-		Iterator<I> iter = physics.iterator();
-		while(iter.hasNext())
+		Iterator<I> iterator = physics.iterator();
+		while(iterator.hasNext())
 		{
-			Integrator ig = iter.next();
+			Integrator ig = iterator.next();
 			
 			ig.onUpdate(delta);
 			if(ig.isFinished())
 			{
-				iter.remove();
+				iterator.remove();
+				ig.onDispose();
 			}
 		}
 	}
