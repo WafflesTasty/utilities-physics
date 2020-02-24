@@ -1,8 +1,6 @@
 package zeno.util.phys.integrate;
 
-import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.algebra.linear.vector.fixed.Vector2;
-import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.geom.utilities.spin.Spin2D;
 import zeno.util.phys.Integrator;
 import zeno.util.phys.entities.IPhysical2D;
@@ -36,33 +34,34 @@ public interface ITGEuler2D extends Decorator<IPhysical2D>, Integrator
 		tgt.rotateFor(vRot);
 		tgt.moveFor(vLin);
 		
+		
 		// Compute the velocity scales.
 		float sLin = dt / tgt.Mass();
 		float sRot = dt / tgt.Inertia();
 		
 		// Update the object's velocity.
-//		tgt.addRotSpeed(Torque().times(sRot));
 		tgt.addLinSpeed(Force().times(sLin));
+		tgt.addRotSpeed(Torque().times(sRot));
 	}
 	
 	
 	/**
-	 * Returns the total torque in the {@code ITGEuler}.
-	 * 
-	 * @return  a torque vector
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector3 Torque();
-
-	/**
-	 * Returns the total force in the {@code ITGEuler}.
+	 * Returns the total force in the {@code ITGEuler2D}.
 	 * 
 	 * @return  a force vector
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Vector2
 	 */
-	public abstract Vector3 Force();
+	public abstract Vector2 Force();
+	
+	/**
+	 * Returns the total torque in the {@code ITGEuler2D}.
+	 * 
+	 * @return  a torque spin
+	 * 
+	 * 
+	 * @see Spin2D
+	 */
+	public abstract Spin2D Torque();
 }

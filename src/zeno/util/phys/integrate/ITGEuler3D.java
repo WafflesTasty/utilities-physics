@@ -1,6 +1,5 @@
 package zeno.util.phys.integrate;
 
-import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.geom.utilities.spin.Spin3D;
 import zeno.util.phys.Integrator;
@@ -41,28 +40,28 @@ public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
 		float sRot = dt / tgt.Inertia();
 		
 		// Update the object's velocity.
-//		tgt.addRotSpeed(Torque().times(sRot));
 		tgt.addLinSpeed(Force().times(sLin));
+		tgt.addRotSpeed(Torque().times(sRot));
 	}
 	
 	
 	/**
-	 * Returns the total torque in the {@code ITGEuler}.
-	 * 
-	 * @return  a torque vector
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector3 Torque();
-
-	/**
-	 * Returns the total force in the {@code ITGEuler}.
+	 * Returns the total force in the {@code ITGEuler3D}.
 	 * 
 	 * @return  a force vector
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Vector3
 	 */
 	public abstract Vector3 Force();
+
+	/**
+	 * Returns the total torque in the {@code ITGEuler3D}.
+	 * 
+	 * @return  a torque spin
+	 * 
+	 * 
+	 * @see Spin3D
+	 */
+	public abstract Spin3D Torque();
 }

@@ -1,6 +1,7 @@
 package zeno.util.phys.integrate;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import zeno.util.phys.Integrator;
@@ -17,15 +18,18 @@ import zeno.util.tools.helper.tasks.SteppedAction;
  * @version 1.0
  * 
  * 
+ * @param <I>  an integrator type
  * @see SteppedAction
+ * @see Integrator
+ * @see Iterable
  */
-public class ITGAction extends SteppedAction
+public class ITGAction<I extends Integrator> extends SteppedAction implements Iterable<I>
 {
 	private static final long DEF_DELTA = 16;
 
 	
 	private long tCurr, tAcc, delta;
-	private Set<Integrator> physics;
+	private Set<I> physics;
 
 	/**
 	 * Creates a new {@code ITGAction}.
@@ -50,27 +54,24 @@ public class ITGAction extends SteppedAction
 	/**
 	 * Adds an integrator to the {@code ITGAction}.
 	 * 
-	 * @param ig  an integrator to add
-	 * 
-	 * 
-	 * @see Integrator
+	 * @param integrator  an integrator to add
 	 */
-	public void add(Integrator ig)
+	public void add(I integrator)
 	{
-		physics.add(ig);
+		physics.add(integrator);
 	}
 	
 	/**
 	 * Removes an integrator from the {@code ITGAction}.
 	 * 
-	 * @param ig  an integrator to remove
+	 * @param integrator  an integrator to remove
 	 * 
 	 * 
 	 * @see Integrator
 	 */
-	public void remove(Integrator ig)
+	public void remove(I integrator)
 	{
-		physics.remove(ig);
+		physics.remove(integrator);
 	}
 	
 	/**
@@ -85,6 +86,13 @@ public class ITGAction extends SteppedAction
 
 	
 	@Override
+	public Iterator<I> iterator()
+	{
+		return physics.iterator();
+	}
+	
+	
+	@Override
 	public void onResume()
 	{
 		tCurr = System.currentTimeMillis();
@@ -93,10 +101,17 @@ public class ITGAction extends SteppedAction
 	@Override
 	public void onStep()
 	{
-		for(Integrator ig : physics)
-    	{
-    		ig.onUpdate(delta);
-    	}
+		Iterator<I> iter = physics.iterator();
+		while(iter.hasNext())
+		{
+			Integrator ig = iter.next();
+			
+			ig.onUpdate(delta);
+			if(ig.isFinished())
+			{
+				iter.remove();
+			}
+		}
 	}
 	
 	@Override
