@@ -56,7 +56,7 @@ public class ITGAction<I extends Integrator> extends SteppedAction
 	 */
 	public void add(I integrator)
 	{
-		System.out.println("Add: " + physics.add(integrator));
+		physics.add(integrator);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ITGAction<I extends Integrator> extends SteppedAction
 	 */
 	public void remove(I integrator)
 	{
-		System.out.println("Remove: " + physics.remove(integrator));
+		physics.remove(integrator);
 	}
 	
 	/**
