@@ -38,7 +38,7 @@ public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
 		// Compute the velocity scales.
 		float sLin = dt / tgt.Mass();
 		float sRot = dt / tgt.Inertia();
-		
+
 		// Update the object's velocity.
 		tgt.addLinSpeed(Force().times(sLin));
 		tgt.addRotSpeed(Torque().times(sRot));
