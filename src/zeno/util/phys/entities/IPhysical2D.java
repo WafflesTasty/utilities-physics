@@ -1,8 +1,8 @@
 package zeno.util.phys.entities;
 
 import zeno.util.algebra.linear.vector.fixed.Vector2;
+import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.geom.collidables.IShapeable2D;
-import zeno.util.geom.utilities.spin.Spin2D;
 import zeno.util.phys.IPhysical;
 
 /**
@@ -25,7 +25,7 @@ public interface IPhysical2D extends IPhysical, IShapeable2D
 	 */
 	public default void addRotSpeed(float a)
 	{
-		addRotSpeed(new Spin2D(a));
+		addRotSpeed(new Vector3(0f, 0f, a));
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public interface IPhysical2D extends IPhysical, IShapeable2D
 	 */
 	public default void setRotSpeed(float a)
 	{
-		setRotSpeed(new Spin2D(a));
+		setRotSpeed(new Vector3(0f, 0f, a));
 	}
 	
 	
@@ -72,8 +72,8 @@ public interface IPhysical2D extends IPhysical, IShapeable2D
 	}
 	
 	@Override
-	public default Spin2D RotSpeed()
+	public default Vector3 RotSpeed()
 	{
-		return (Spin2D) IPhysical.super.RotSpeed();
+		return (Vector3) IPhysical.super.RotSpeed();
 	}
 }

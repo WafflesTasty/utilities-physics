@@ -1,7 +1,6 @@
 package zeno.util.phys.integrate;
 
 import zeno.util.algebra.linear.vector.fixed.Vector3;
-import zeno.util.geom.utilities.spin.Spin3D;
 import zeno.util.phys.Integrator;
 import zeno.util.phys.entities.IPhysical3D;
 import zeno.util.tools.patterns.Decorator;
@@ -28,7 +27,7 @@ public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
 
 		// Compute the new distance vectors.
 		Vector3 vLin = tgt.LinSpeed().times(dt / 1000f);
-		Spin3D vRot = tgt.RotSpeed().times(dt / 1000f);
+		Vector3 vRot = tgt.RotSpeed().times(dt / 1000f);
 		
 		// Update the state of the object.
 		tgt.rotateFor(vRot);
@@ -54,14 +53,14 @@ public interface ITGEuler3D extends Decorator<IPhysical3D>, Integrator
 	 * @see Vector3
 	 */
 	public abstract Vector3 Force();
-
+	
 	/**
 	 * Returns the total torque in the {@code ITGEuler3D}.
 	 * 
-	 * @return  a torque spin
+	 * @return  a torque vector
 	 * 
 	 * 
-	 * @see Spin3D
+	 * @see Vector3
 	 */
-	public abstract Spin3D Torque();
+	public abstract Vector3 Torque();
 }

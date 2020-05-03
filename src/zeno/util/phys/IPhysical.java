@@ -2,7 +2,6 @@ package zeno.util.phys;
 
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.geom.collidables.IShapeable;
-import zeno.util.geom.utilities.spin.Spin;
 
 /**
  * The {@code IPhysical} interface defines an object with Newtonian physics properties.
@@ -30,14 +29,14 @@ public interface IPhysical extends IShapeable
 	/**
 	 * Changes the rotate speed of the {@code IPhysical}.
 	 * 
-	 * @param s  a spin velocity
+	 * @param v  a rotate velocity
 	 * 
 	 * 
-	 * @see Spin
+	 * @see Vector
 	 */
-	public default void setRotSpeed(Spin s)
+	public default void setRotSpeed(Vector v)
 	{
-		Dynamics().setRotSpeed(s);
+		Dynamics().setRotSpeed(v);
 	}
 	
 	/**
@@ -69,14 +68,14 @@ public interface IPhysical extends IShapeable
 	/**
 	 * Adds a rotate speed to the {@code IPhysical}.
 	 * 
-	 * @param s  a spin velocity
+	 * @param v  a rotate velocity
 	 * 
 	 * 
 	 * @see Vector
 	 */
-	public default void addRotSpeed(Spin s)
+	public default void addRotSpeed(Vector v)
 	{
-		Dynamics().addRotSpeed(s);
+		Dynamics().addRotSpeed(v);
 	}
 	
 	
@@ -86,9 +85,9 @@ public interface IPhysical extends IShapeable
 	 * @return  a rotate velocity
 	 * 
 	 * 
-	 * @see Spin
+	 * @see Vector
 	 */
-	public default Spin RotSpeed()
+	public default Vector RotSpeed()
 	{
 		return Dynamics().RotSpeed();
 	}

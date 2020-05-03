@@ -2,7 +2,6 @@ package zeno.util.phys;
 
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.geom.collidables.affine.Point;
-import zeno.util.geom.utilities.spin.Spin;
 import zeno.util.tools.patterns.Decorator;
 
 /**
@@ -35,14 +34,14 @@ public interface IDynamics extends Decorator<IPhysical>
 	/**
 	 * Adds rotate speed to the {@code IDynamics}.
 	 * 
-	 * @param s  a rotate velocity
+	 * @param v  a rotate velocity
 	 * 
 	 * 
-	 * @see Spin
+	 * @see Vector
 	 */
-	public default void addRotSpeed(Spin s)
+	public default void addRotSpeed(Vector v)
 	{
-		setRotSpeed(s.compose(RotSpeed()));
+		setRotSpeed(RotSpeed().plus(v));
 	}
 	
 	/**
@@ -71,24 +70,14 @@ public interface IDynamics extends Decorator<IPhysical>
 	/**
 	 * Changes rotate speed of the {@code IDynamics}.
 	 * 
-	 * @param s  a rotate velocity
+	 * @param v  a rotate velocity
 	 * 
 	 * 
-	 * @see Spin
+	 * @see Vector
 	 */
-	public abstract void setRotSpeed(Spin s);
+	public abstract void setRotSpeed(Vector v);
 	
-	
-	/**
-	 * Returns the rotate speed of the {@code IDynamics}.
-	 * 
-	 * @return  a rotate velocity
-	 * 
-	 * 
-	 * @see Spin
-	 */
-	public abstract Spin RotSpeed();
-	
+		
 	/**
 	 * Returns the linear speed of the {@code IDynamics}.
 	 * 
@@ -98,6 +87,16 @@ public interface IDynamics extends Decorator<IPhysical>
 	 * @see Vector
 	 */
 	public abstract Vector LinSpeed();
+	
+	/**
+	 * Returns the rotate speed of the {@code IDynamics}.
+	 * 
+	 * @return  a rotate velocity
+	 * 
+	 * 
+	 * @see Vector
+	 */
+	public abstract Vector RotSpeed();
 	
 	/**
 	 * Returns the inertia of the {@code IDynamics}.
