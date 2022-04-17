@@ -13,7 +13,7 @@ public interface Integrator
 	/**
 	 * Event raised on updating the {@code Integrator}.
 	 * 
-	 * @param dt  a delta time in ms
+	 * @param time  a time interval in ms
 	 */
-	public abstract void onUpdate(long dt);
+	public abstract void onUpdate(long time);
 }
