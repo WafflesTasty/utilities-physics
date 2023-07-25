@@ -1,10 +1,10 @@
 package zeno.util.phys.integrate;
 
+import waffles.util.tools.patterns.semantics.Decorator;
 import zeno.util.algebra.linear.vector.fixed.Vector2;
 import zeno.util.algebra.linear.vector.fixed.Vector3;
 import zeno.util.phys.Integrator;
 import zeno.util.phys.entities.IPhysical2D;
-import zeno.util.tools.patterns.Decorator;
 
 /**
  * The {@code ITGEuler2D} interface integrates 2D objects using the {@code semi-implicit Euler method}.

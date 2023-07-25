@@ -1,8 +1,8 @@
 package zeno.util.phys;
 
+import waffles.util.tools.patterns.semantics.Decorator;
 import zeno.util.algebra.linear.vector.Vector;
 import zeno.util.geom.collidables.affine.Point;
-import zeno.util.tools.patterns.Decorator;
 
 /**
  * The {@code IDynamics} interface defines properties of an {@code IPhysical}.
