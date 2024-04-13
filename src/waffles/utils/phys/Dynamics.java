@@ -1,9 +1,7 @@
 package waffles.utils.phys;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.phys.dynamics.AngularDynamical;
 import waffles.utils.phys.dynamics.AngularDynamics;
-import waffles.utils.phys.dynamics.LinearDynamical;
 import waffles.utils.phys.dynamics.LinearDynamics;
 
 /**
@@ -14,10 +12,9 @@ import waffles.utils.phys.dynamics.LinearDynamics;
  * @version 1.1
  * 
  * 
- * @see AngularDynamical
- * @see LinearDynamical
+ * @see Dynamical
  */
-public class Dynamics implements LinearDynamical.Mutable, AngularDynamical.Mutable
+public class Dynamics implements Dynamical.Mutable
 {
 	private LinearDynamics dLin;
 	private AngularDynamics dRot;
