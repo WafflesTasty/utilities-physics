@@ -1,6 +1,7 @@
 package waffles.utils.phys.physical;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.phys.dynamics.LinearDynamical;
 import waffles.utils.phys.dynamics.LinearDynamics;
 
 /**
@@ -13,18 +14,55 @@ import waffles.utils.phys.dynamics.LinearDynamics;
  * 
  * @see LinearDynamics
  */
-public interface LinearPhysical extends LinearDynamics
+public interface LinearPhysical extends LinearDynamical.Mutable
 {
 	/**
 	 * Returns the dynamics of the {@code LinearPhysical}.
 	 * 
-	 * @return  a linear mutable
+	 * @return  a linear dynamics
 	 * 
 	 * 
-	 * @see LinearDynamics
+	 * @see LinearDynamical
 	 */
-	public abstract LinearDynamics.Mutable Dynamics();
+	public abstract LinearDynamical Dynamics();
+
 	
+	@Override
+	public default void setLinImpulse(Vector v)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setLinImpulse(v);
+		}
+	}
+
+	@Override
+	public default void setLinSpeed(Vector v)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setLinSpeed(v);
+		}
+	}
+	
+	@Override
+	public default void setMass(float m)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setMass(m);
+		}
+	}
+	
+	
+	@Override
+	public default Vector LinImpulse()
+	{
+		return Dynamics().LinImpulse();
+	}
 	
 	@Override
 	public default Vector LinSpeed()

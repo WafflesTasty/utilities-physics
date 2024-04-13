@@ -1,78 +1,68 @@
 package waffles.utils.phys.dynamics;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.tools.patterns.semantics.Immutable;
+import waffles.utils.algebra.elements.linear.vector.Vectors;
 
 /**
- * A {@code LinearDynamics} object defines a linear speed and mass.
+ * A {@code LinearDynamics} defines a basic {@code LinearDynamical.Mutable} implementation.
  *
  * @author Waffles
- * @since 05 Apr 2024
+ * @since 13 Apr 2024
  * @version 1.1
  * 
  * 
- * @see Immutable
+ * @see LinearDynamical
  */
-public interface LinearDynamics extends Immutable
+public class LinearDynamics implements LinearDynamical.Mutable
 {
+	private float mass;
+	private Vector vLin, vImp;
+	
 	/**
-	 * A {@code Mutable LinearDynamics} can change its own speed and mass.
-	 *
-	 * @author Waffles
-	 * @since 05 Apr 2024
-	 * @version 1.1
+	 * Creates a new {@code LinearDynamics}.
 	 * 
-	 * 
-	 * @see LinearDynamics
+	 * @param dim  a vector dimension
 	 */
-	public static interface Mutable extends Immutable.Mutable, LinearDynamics
+	public LinearDynamics(int dim)
 	{
-		/**
-		 * Adds to the {@code LinearDynamics} speed.
-		 * 
-		 * @param v  a linear speed
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public default void addLinSpeed(Vector v)
-		{
-			setLinSpeed(LinSpeed().plus(v));
-		}
-			
-		/**
-		 * Changes the {@code LinearDynamics} speed.
-		 * 
-		 * @param v  a linear speed
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public abstract void setLinSpeed(Vector v);
-		
-		/**
-		 * Changes the {@code LinearDynamics} mass.
-		 * 
-		 * @param m  an object mass
-		 */
-		public abstract void setMass(float m);
+		vLin = Vectors.create(dim);
+		vImp = Vectors.create(dim);
 	}
 	
 	
-	/**
-	 * Returns the {@code LinearDynamics} speed.
-	 * 
-	 * @return  a linear speed
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector LinSpeed();
+	@Override
+	public void setLinImpulse(Vector v)
+	{
+		vImp = v;
+	}
 	
-	/**
-	 * Returns the {@code LinearDynamics} mass.
-	 * 
-	 * @return  an object mass
-	 */
-	public abstract float Mass();
+	@Override
+	public void setLinSpeed(Vector v)
+	{
+		vLin = v;
+	}
+
+	@Override
+	public void setMass(float m)
+	{
+		mass = m;
+	}
+
+	@Override
+	public Vector LinImpulse()
+	{
+		return vImp;
+	}
+	
+	@Override
+	public Vector LinSpeed()
+	{
+		return vLin;
+	}
+
+	@Override
+	public float Mass()
+	{
+		return mass;
+	}	
 }

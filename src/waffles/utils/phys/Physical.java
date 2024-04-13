@@ -17,5 +17,5 @@ import waffles.utils.phys.physical.LinearPhysical;
 public interface Physical extends AngularPhysical, LinearPhysical
 {
 	@Override
-	public abstract Dynamics.Mutable Dynamics();
+	public abstract Dynamical.Mutable Dynamics();
 }

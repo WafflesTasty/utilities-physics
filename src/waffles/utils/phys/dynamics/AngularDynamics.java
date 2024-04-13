@@ -1,78 +1,68 @@
 package waffles.utils.phys.dynamics;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.tools.patterns.semantics.Immutable;
+import waffles.utils.algebra.elements.linear.vector.Vectors;
 
 /**
- * An {@code AngularDynamics} object defines an angular speed and inertia.
+ * An {@code AngularDynamics} defines a basic {@code AngularDynamical.Mutable} implementation.
  *
  * @author Waffles
- * @since 05 Apr 2024
+ * @since 13 Apr 2024
  * @version 1.1
  * 
  * 
- * @see Immutable
+ * @see AngularDynamical
  */
-public interface AngularDynamics extends Immutable
+public class AngularDynamics implements AngularDynamical.Mutable
 {
+	private float inertia;
+	private Vector vAng, vImp;
+	
 	/**
-	 * A {@code Mutable AngularDynamics} can change its own speed and inertia.
-	 *
-	 * @author Waffles
-	 * @since 05 Apr 2024
-	 * @version 1.1
+	 * Creates a new {@code AngularDynamics}.
 	 * 
-	 * 
-	 * @see AngularDynamics
+	 * @param dim  a vector dimension
 	 */
-	public static interface Mutable extends Immutable.Mutable, AngularDynamics
+	public AngularDynamics(int dim)
 	{
-		/**
-		 * Adds to the {@code AngularDynamics} speed.
-		 * 
-		 * @param v  an angular speed
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public default void addRotSpeed(Vector v)
-		{
-			setRotSpeed(RotSpeed().plus(v));
-		}
-			
-		/**
-		 * Changes the {@code AngularDynamics} speed.
-		 * 
-		 * @param v  an angular speed
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public abstract void setRotSpeed(Vector v);
-		
-		/**
-		 * Changes the {@code AngularDynamics} inertia.
-		 * 
-		 * @param i  an object inertia
-		 */
-		public abstract void setInertia(float i);
+		vAng = Vectors.create(dim);
+		vImp = Vectors.create(dim);
 	}
 	
 	
-	/**
-	 * Returns the {@code AngularDynamics} speed.
-	 * 
-	 * @return  an angular speed
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector RotSpeed();
+	@Override
+	public void setRotImpulse(Vector v)
+	{
+		vImp = v;
+	}
 	
-	/**
-	 * Returns the {@code AngularDynamics} inertia.
-	 * 
-	 * @return  an object inertia
-	 */
-	public abstract float Inertia();
+	@Override
+	public void setRotSpeed(Vector v)
+	{
+		vAng = v;
+	}
+
+	@Override
+	public void setInertia(float i)
+	{
+		inertia = i;
+	}
+
+	@Override
+	public Vector RotImpulse()
+	{
+		return vImp;
+	}
+	
+	@Override
+	public Vector RotSpeed()
+	{
+		return vAng;
+	}
+
+	@Override
+	public float Inertia()
+	{
+		return inertia;
+	}	
 }

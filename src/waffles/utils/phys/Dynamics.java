@@ -1,34 +1,109 @@
 package waffles.utils.phys;
 
+import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.phys.dynamics.AngularDynamical;
 import waffles.utils.phys.dynamics.AngularDynamics;
+import waffles.utils.phys.dynamics.LinearDynamical;
 import waffles.utils.phys.dynamics.LinearDynamics;
 
 /**
- * A {@code Dynamics} object defines a linear and angular speed, inertia and mass.
+ * The {@code Dynamics} class defines a linear and angular speed, inertia and mass.
  *
  * @author Waffles
  * @since 05 Apr 2024
  * @version 1.1
  * 
  * 
- * @see AngularDynamics
- * @see LinearDynamics
+ * @see AngularDynamical
+ * @see LinearDynamical
  */
-public interface Dynamics extends LinearDynamics, AngularDynamics
+public class Dynamics implements LinearDynamical.Mutable, AngularDynamical.Mutable
 {
+	private LinearDynamics dLin;
+	private AngularDynamics dRot;
+	
 	/**
-	 * A {@code Mutable Dynamics} object can change its own speed, inertia and mass.
-	 *
-	 * @author Waffles
-	 * @since 05 Apr 2024
-	 * @version 1.1
-	 *
+	 * Creates a new {@code Dynamics}.
 	 * 
-	 * @see AngularDynamics
-	 * @see LinearDynamics
+	 * @param dim  a vector dimension
 	 */
-	public static interface Mutable extends LinearDynamics.Mutable, AngularDynamics.Mutable
+	public Dynamics(int dim)
 	{
-		// NOT APPLICABLE
+		dLin = new LinearDynamics(dim);
+		dRot = new AngularDynamics(dim);
+	}
+	
+		
+	@Override
+	public void setLinImpulse(Vector v)
+	{
+		dLin.setLinImpulse(v);
+	}
+	
+	@Override
+	public void setRotImpulse(Vector v)
+	{
+		dRot.setRotImpulse(v);
+	}
+	
+	@Override
+	public void setLinSpeed(Vector v)
+	{
+		dLin.setLinSpeed(v);
+	}
+	
+	@Override
+	public void setRotSpeed(Vector v)
+	{
+		dRot.setRotSpeed(v);
+	}
+	
+	@Override
+	public void setInertia(float i)
+	{
+		dRot.setInertia(i);
+	}
+	
+	@Override
+	public void setMass(float m)
+	{
+		dLin.setMass(m);
+	}
+
+	
+	@Override
+	public Vector LinImpulse()
+	{
+		return dLin.LinImpulse();
+	}
+	
+	@Override
+	public Vector RotImpulse()
+	{
+		return dRot.RotImpulse();
+	}
+	
+	@Override
+	public Vector LinSpeed()
+	{
+		return dLin.LinSpeed();
+	}
+	
+	@Override
+	public Vector RotSpeed()
+	{
+		return dRot.RotSpeed();
+	}
+	
+	@Override
+	public float Inertia()
+	{
+		return dRot.Inertia();
+	}
+	
+	@Override
+	public float Mass()
+	{
+		return dLin.Mass();
 	}
 }
