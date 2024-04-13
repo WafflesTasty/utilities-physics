@@ -1,10 +1,10 @@
 package zeno.util.phys.integrate;
 
-import waffles.util.tools.patterns.semantics.Decorator;
-import zeno.util.algebra.linear.vector.fixed.Vector2;
-import zeno.util.algebra.linear.vector.fixed.Vector3;
-import zeno.util.phys.Integrator;
-import zeno.util.phys.entities.IPhysical2D;
+import waffles.utils.algebra.elements.linear.vector.fixed.Vector2;
+import waffles.utils.algebra.elements.linear.vector.fixed.Vector3;
+import waffles.utils.phys._deprecated.IPhysical2D;
+import waffles.utils.tools.patterns.semantics.Decorator;
+import zeno.util.phys.events.SynchroEvent;
 
 /**
  * The {@code ITGEuler2D} interface integrates 2D objects using the {@code semi-implicit Euler method}.
@@ -16,10 +16,10 @@ import zeno.util.phys.entities.IPhysical2D;
  * 
  * @see <a href="https://en.wikipedia.org/wiki/Semi-implicit_Euler_method">Wikipedia - Euler Method</a>
  * @see IPhysical2D
- * @see Integrator
+ * @see SynchroEvent
  * @see Decorator
  */
-public interface ITGEuler2D extends Decorator<IPhysical2D>, Integrator
+public interface ITGEuler2D extends Decorator, SynchroEvent
 {	
 	@Override
 	public default void onUpdate(long dt)

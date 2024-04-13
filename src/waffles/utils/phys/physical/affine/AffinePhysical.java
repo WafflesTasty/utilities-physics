@@ -1,6 +1,7 @@
 package waffles.utils.phys.physical.affine;
 
 import waffles.utils.geom.collidable.geometric.AffineOriented;
+import waffles.utils.geom.spatial.maps.spatial.SpatialMap;
 import waffles.utils.phys.Dynamical;
 import waffles.utils.phys.physical.AngularPhysical;
 import waffles.utils.phys.physical.aligned.AlignedPhysical;
@@ -21,4 +22,7 @@ public interface AffinePhysical extends AffineOriented, AlignedPhysical, Angular
 {
 	@Override
 	public abstract Dynamical.Mutable Dynamics();
+	
+	@Override
+	public abstract SpatialMap Transform();
 }

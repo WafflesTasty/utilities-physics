@@ -1,6 +1,6 @@
 package zeno.util.phys.utilities;
 
-import waffles.util.tools.primitives.Floats;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * The {@code Physics} class provides static access to basic physics utilities in euclidian space.
