@@ -1,7 +1,7 @@
-package waffles.utils.phys;
+package waffles.utils.phys.dynamics;
 
-import waffles.utils.phys.dynamics.AngularDynamical;
-import waffles.utils.phys.dynamics.LinearDynamical;
+import waffles.utils.phys.dynamics.angular.AngularDynamical;
+import waffles.utils.phys.dynamics.linear.LinearDynamical;
 
 /**
  * A {@code Dynamical} object defines both linear and angular dynamics.

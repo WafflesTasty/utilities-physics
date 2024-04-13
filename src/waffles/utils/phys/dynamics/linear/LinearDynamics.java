@@ -1,4 +1,4 @@
-package waffles.utils.phys.dynamics;
+package waffles.utils.phys.dynamics.linear;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.algebra.elements.linear.vector.Vectors;
@@ -16,7 +16,7 @@ import waffles.utils.algebra.elements.linear.vector.Vectors;
 public class LinearDynamics implements LinearDynamical.Mutable
 {
 	private float mass;
-	private Vector vLin, vImp;
+	private Vector vel;
 	
 	/**
 	 * Creates a new {@code LinearDynamics}.
@@ -25,21 +25,14 @@ public class LinearDynamics implements LinearDynamical.Mutable
 	 */
 	public LinearDynamics(int dim)
 	{
-		vLin = Vectors.create(dim);
-		vImp = Vectors.create(dim);
+		vel = Vectors.create(dim);
 	}
 	
-	
-	@Override
-	public void setLinImpulse(Vector v)
-	{
-		vImp = v;
-	}
 	
 	@Override
 	public void setLinSpeed(Vector v)
 	{
-		vLin = v;
+		vel = v;
 	}
 
 	@Override
@@ -49,15 +42,9 @@ public class LinearDynamics implements LinearDynamical.Mutable
 	}
 
 	@Override
-	public Vector LinImpulse()
-	{
-		return vImp;
-	}
-	
-	@Override
 	public Vector LinSpeed()
 	{
-		return vLin;
+		return vel;
 	}
 
 	@Override

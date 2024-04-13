@@ -1,4 +1,4 @@
-package waffles.utils.phys.dynamics;
+package waffles.utils.phys.dynamics.angular;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.tools.patterns.semantics.Immutable;
@@ -39,20 +39,6 @@ public interface AngularDynamical extends Immutable
 		{
 			setRotSpeed(RotSpeed().plus(v));
 		}
-		
-		/**
-		 * Adds to the {@code AngularDynamical} impulse.
-		 * 
-		 * @param v  an angular impulse
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public default void addRotImpulse(Vector v)
-		{
-			setRotImpulse(RotImpulse().plus(v));
-		}
-		
 			
 		/**
 		 * Changes the {@code AngularDynamical} speed.
@@ -63,17 +49,7 @@ public interface AngularDynamical extends Immutable
 		 * @see Vector
 		 */
 		public abstract void setRotSpeed(Vector v);
-		
-		/**
-		 * Changes the {@code AngularDynamical} impulse.
-		 * 
-		 * @param v  an angular impulse
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public abstract void setRotImpulse(Vector v);
-		
+				
 		/**
 		 * Changes the {@code AngularDynamical} inertia.
 		 * 
@@ -82,16 +58,6 @@ public interface AngularDynamical extends Immutable
 		public abstract void setInertia(float i);
 	}
 	
-	
-	/**
-	 * Returns the {@code AngularDynamical} impulse.
-	 * 
-	 * @return  an angular impulse
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector RotImpulse();
 		
 	/**
 	 * Returns the {@code AngularDynamical} speed.

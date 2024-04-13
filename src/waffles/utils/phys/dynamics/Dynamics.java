@@ -1,8 +1,8 @@
-package waffles.utils.phys;
+package waffles.utils.phys.dynamics;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.phys.dynamics.AngularDynamics;
-import waffles.utils.phys.dynamics.LinearDynamics;
+import waffles.utils.phys.dynamics.angular.AngularDynamics;
+import waffles.utils.phys.dynamics.linear.LinearDynamics;
 
 /**
  * The {@code Dynamics} class defines a linear and angular speed, inertia and mass.
@@ -32,18 +32,6 @@ public class Dynamics implements Dynamical.Mutable
 	
 		
 	@Override
-	public void setLinImpulse(Vector v)
-	{
-		dLin.setLinImpulse(v);
-	}
-	
-	@Override
-	public void setRotImpulse(Vector v)
-	{
-		dRot.setRotImpulse(v);
-	}
-	
-	@Override
 	public void setLinSpeed(Vector v)
 	{
 		dLin.setLinSpeed(v);
@@ -67,18 +55,6 @@ public class Dynamics implements Dynamical.Mutable
 		dLin.setMass(m);
 	}
 
-	
-	@Override
-	public Vector LinImpulse()
-	{
-		return dLin.LinImpulse();
-	}
-	
-	@Override
-	public Vector RotImpulse()
-	{
-		return dRot.RotImpulse();
-	}
 	
 	@Override
 	public Vector LinSpeed()

@@ -1,4 +1,4 @@
-package waffles.utils.phys.dynamics;
+package waffles.utils.phys.dynamics.linear;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.tools.patterns.semantics.Immutable;
@@ -39,21 +39,7 @@ public interface LinearDynamical extends Immutable
 		{
 			setLinSpeed(LinSpeed().plus(v));
 		}
-		
-		/**
-		 * Adds to the {@code LinearDynamical} impulse.
-		 * 
-		 * @param v  a linear impulse
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public default void addLinImpulse(Vector v)
-		{
-			setLinImpulse(LinImpulse().plus(v));
-		}
-		
-			
+					
 		/**
 		 * Changes the {@code LinearDynamical} speed.
 		 * 
@@ -65,16 +51,6 @@ public interface LinearDynamical extends Immutable
 		public abstract void setLinSpeed(Vector v);
 		
 		/**
-		 * Changes the {@code LinearDynamical} impulse.
-		 * 
-		 * @param v  a linear impulse
-		 * 
-		 * 
-		 * @see Vector
-		 */
-		public abstract void setLinImpulse(Vector v);
-		
-		/**
 		 * Changes the {@code LinearDynamical} mass.
 		 * 
 		 * @param m  an object mass
@@ -82,16 +58,6 @@ public interface LinearDynamical extends Immutable
 		public abstract void setMass(float m);
 	}
 	
-	
-	/**
-	 * Returns the {@code LinearDynamical} impulse.
-	 * 
-	 * @return  a linear impulse
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract Vector LinImpulse();
 		
 	/**
 	 * Returns the {@code LinearDynamical} speed.

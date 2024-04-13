@@ -1,21 +1,20 @@
 package waffles.utils.phys;
 
-import waffles.utils.phys.physical.AngularPhysical;
-import waffles.utils.phys.physical.LinearPhysical;
+import waffles.utils.geom.Collidable;
+import waffles.utils.phys.utilities.events.SynchroEvent;
 
 /**
- * A {@code Physical} object can handle full-motion kinetics.
+ * A {@code Physical} object can be managed in physics simulations.
  *
  * @author Waffles
  * @since 05 Apr 2024
  * @version 1.1
  * 
  * 
- * @see AngularPhysical
- * @see LinearPhysical
+ * @see SynchroEvent
+ * @see Collidable
  */
-public interface Physical extends AngularPhysical, LinearPhysical
+public interface Physical extends Collidable, SynchroEvent
 {
-	@Override
-	public abstract Dynamical.Mutable Dynamics();
+	// NOT APPLICABLE
 }

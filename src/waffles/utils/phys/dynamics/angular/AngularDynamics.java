@@ -1,4 +1,4 @@
-package waffles.utils.phys.dynamics;
+package waffles.utils.phys.dynamics.angular;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.algebra.elements.linear.vector.Vectors;
@@ -15,8 +15,8 @@ import waffles.utils.algebra.elements.linear.vector.Vectors;
  */
 public class AngularDynamics implements AngularDynamical.Mutable
 {
+	private Vector vel;
 	private float inertia;
-	private Vector vAng, vImp;
 	
 	/**
 	 * Creates a new {@code AngularDynamics}.
@@ -25,21 +25,14 @@ public class AngularDynamics implements AngularDynamical.Mutable
 	 */
 	public AngularDynamics(int dim)
 	{
-		vAng = Vectors.create(dim);
-		vImp = Vectors.create(dim);
+		vel = Vectors.create(dim);
 	}
 	
-	
-	@Override
-	public void setRotImpulse(Vector v)
-	{
-		vImp = v;
-	}
-	
+		
 	@Override
 	public void setRotSpeed(Vector v)
 	{
-		vAng = v;
+		vel = v;
 	}
 
 	@Override
@@ -49,15 +42,9 @@ public class AngularDynamics implements AngularDynamical.Mutable
 	}
 
 	@Override
-	public Vector RotImpulse()
-	{
-		return vImp;
-	}
-	
-	@Override
 	public Vector RotSpeed()
 	{
-		return vAng;
+		return vel;
 	}
 
 	@Override
