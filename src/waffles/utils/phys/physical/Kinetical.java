@@ -19,13 +19,6 @@ import waffles.utils.phys.physical.linear.LinearPhysical;
 public interface Kinetical extends LinearPhysical, AngularPhysical
 {
 	@Override
-	public default void onUpdate(long time)
-	{
-		AngularPhysical.super.onUpdate(time);
-		LinearPhysical.super.onUpdate(time);
-	}
-	
-	@Override
 	public abstract Spatial.Mutable Transform();
 	
 	@Override

@@ -1,9 +1,11 @@
 package waffles.utils.phys;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.Collidable;
 import waffles.utils.geom.Collision.Response;
 import waffles.utils.geom.collidable.axial.cuboid.HyperCuboid;
 import waffles.utils.geom.spaces.Manifold;
+import waffles.utils.phys.integrators.Integrator;
 import waffles.utils.phys.utilities.events.SynchroEvent;
 import waffles.utils.sets.keymaps.Pair;
 import waffles.utils.sets.queues.Queue;
@@ -19,25 +21,29 @@ import waffles.utils.sets.queues.delegate.JFIFOQueue;
  *
  * @param <O>  an object type
  * @see SynchroEvent
- * @see Physical
+ * @see Collidable
+ * @see Integrator
  */
-public abstract class Physics<O extends Physical> implements SynchroEvent
+public class Physics<O extends Collidable> implements Integrator<O>, SynchroEvent
 {
 	private Queue<O> queue;
 	private Manifold<O> src;
+	private Integrator<O> itg;
 	
 	/**
 	 * Creates a new {@code Physics}.
 	 * 
+	 * @param i  a physics integrator
 	 * @param s  a manifold space
 	 * 
 	 * 
+	 * @see Integrator
 	 * @see Manifold
 	 */
-	public Physics(Manifold<O> s)
+	public Physics(Integrator<O> i, Manifold<O> s)
 	{
 		queue = new JFIFOQueue<>();
-		src = s;
+		itg = i; src = s;
 	}
 	
 	/**
@@ -54,31 +60,23 @@ public abstract class Physics<O extends Physical> implements SynchroEvent
 	}
 	
 	
-	/**
-	 * Bounces two objects off eachother in the {@code Physics}.
-	 * 
-	 * @param src  a source object
-	 * @param tgt  a target object
-	 * @param p    a penetration vector
-	 * @param c    an elasticity value
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract void bounce(O src, O tgt, Vector p, float c);
+	@Override
+	public void bounce(O src, O tgt, Vector p, float c)
+	{
+		itg.bounce(src, tgt, p, c);
+	}
+
+	@Override
+	public void bounce(O src, Vector p, float c)
+	{
+		itg.bounce(src, p, c);
+	}	
 	
-	/**
-	 * Bounces an object off an immovable in the {@code Physics}.
-	 * 
-	 * @param src  a source object
-	 * @param p    a penetration vector
-	 * @param c    an elasticity value
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public abstract void bounce(O src, Vector p, float c);
-	
+	@Override
+	public void update(O src, long time)
+	{
+		itg.update(src, time);
+	}
 	
 	@Override
 	public void onUpdate(long time)
@@ -122,7 +120,7 @@ public abstract class Physics<O extends Physical> implements SynchroEvent
 		// Update the target space.
 		for(O obj : queue)
 		{
-			obj.onUpdate(time);			
+			update(obj, time);
 			src.add(obj);
 		}
 		queue.clear();

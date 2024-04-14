@@ -1,23 +1,23 @@
 package waffles.utils.phys.physical.linear;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.Collidable;
 import waffles.utils.geom.spatial.types.Movable;
-import waffles.utils.phys.Physical;
 import waffles.utils.phys.dynamics.linear.LinearDynamical;
 
 /**
- * A {@code LinearPhysical} defines an object with linear Newtonian physics.
+ * A {@code LinearPhysical} defines a collidable object with linear Newtonian physics.
  *
  * @author Waffles
  * @since Jul 12, 2017
  * @version 1.0
  * 
  * 
- * @see Physical
  * @see LinearDynamical
+ * @see Collidable
  * @see Movable
  */
-public interface LinearPhysical extends LinearDynamical.Mutable, Physical, Movable
+public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Movable
 {
 	/**
 	 * Returns the dynamics of the {@code LinearPhysical}.
@@ -30,25 +30,16 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Physical, Movab
 	public abstract LinearDynamical Dynamics();
 
 	
-	// TODO
-	public static int i = 0;
-	
 	@Override
-	public default void onUpdate(long time)
-	{		
-		Vector vLin = LinSpeed();
-
-		float sLin = time / Mass();
-//		vLin = vLin.plus(Force().times(sLin));
-		Vector v = vLin.times(time / 1000f);
-
-		setLinSpeed(vLin);
-		moveFor(v);
-		
-
-//		b.addLinSpeed(Gravity().times(sLin));
+	public default void setLinForce(Vector v)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setLinForce(v);
+		}
 	}
-
+	
 	@Override
 	public default void setLinSpeed(Vector v)
 	{
@@ -69,6 +60,12 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Physical, Movab
 		}
 	}
 	
+	
+	@Override
+	public default Vector LinForce()
+	{
+		return Dynamics().LinForce();
+	}
 	
 	@Override
 	public default Vector LinSpeed()

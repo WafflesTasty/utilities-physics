@@ -30,6 +30,12 @@ public class Dynamics implements Dynamical.Mutable
 		dRot = new AngularDynamics(dim);
 	}
 	
+	
+	@Override
+	public void setLinForce(Vector v)
+	{
+		dLin.setLinForce(v);
+	}
 		
 	@Override
 	public void setLinSpeed(Vector v)
@@ -55,6 +61,12 @@ public class Dynamics implements Dynamical.Mutable
 		dLin.setMass(m);
 	}
 
+	
+	@Override
+	public Vector LinForce()
+	{
+		return dLin.LinForce();
+	}
 	
 	@Override
 	public Vector LinSpeed()

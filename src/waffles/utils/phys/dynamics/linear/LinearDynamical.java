@@ -28,6 +28,19 @@ public interface LinearDynamical extends Immutable
 	public static interface Mutable extends Immutable.Mutable, LinearDynamical
 	{
 		/**
+		 * Adds to the {@code LinearDynamical} force.
+		 * 
+		 * @param v  a linear force
+		 * 
+		 * 
+		 * @see Vector
+		 */
+		public default void addLinForce(Vector v)
+		{
+			setLinForce(LinForce().plus(v));
+		}
+		
+		/**
 		 * Adds to the {@code LinearDynamical} speed.
 		 * 
 		 * @param v  a linear speed
@@ -39,7 +52,17 @@ public interface LinearDynamical extends Immutable
 		{
 			setLinSpeed(LinSpeed().plus(v));
 		}
-					
+			
+		/**
+		 * Changes the {@code LinearDynamical} force.
+		 * 
+		 * @param v  a linear force
+		 * 
+		 * 
+		 * @see Vector
+		 */
+		public abstract void setLinForce(Vector v);
+		
 		/**
 		 * Changes the {@code LinearDynamical} speed.
 		 * 
@@ -58,6 +81,16 @@ public interface LinearDynamical extends Immutable
 		public abstract void setMass(float m);
 	}
 	
+	
+	/**
+	 * Returns the {@code LinearDynamical} force.
+	 * 
+	 * @return  a linear force
+	 * 
+	 * 
+	 * @see Vector
+	 */
+	public abstract Vector LinForce();
 		
 	/**
 	 * Returns the {@code LinearDynamical} speed.
