@@ -60,16 +60,26 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		return vDefault;
 	}
 
-	
+
 	@Override
 	public void update(P src, long time)
 	{
-		Vector vFrc = Force(src);
-		vFrc = vFrc.plus(src.LinForce());
-		float sLin = time / src.Mass();
-		vFrc = vFrc.times(sLin);
+		float dt  = time / 1000f;
+		float dtm = time / src.Mass();
+		float ddt = dt * dt / 2;
 		
-		src.addLinSpeed(vFrc);
-		super.update(src, time);
+		Vector vLin = src.LinSpeed();
+		Vector aLin = src.LinAccel();
+		Vector fLin = src.LinForce();
+		
+		
+		Vector fNew = fLin.plus(Force(src));
+		Vector aNew = fNew.times(dtm).plus(aLin).times(0.5f);
+		Vector vNew = vLin.plus(aLin.plus(aNew).times(dt / 2));
+		Vector xNew = vLin.times(dt).plus(aLin.times(ddt));
+
+		src.setLinAccel(aNew);
+		src.setLinSpeed(vNew);
+		src.moveFor(xNew);
 	}
 }

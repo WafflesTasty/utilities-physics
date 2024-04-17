@@ -31,6 +31,16 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Mov
 
 	
 	@Override
+	public default void setLinAccel(Vector v)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setLinAccel(v);
+		}
+	}
+	
+	@Override
 	public default void setLinForce(Vector v)
 	{
 		LinearDynamical.Mutable src = Dynamics().Mutator();
@@ -60,6 +70,12 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Mov
 		}
 	}
 	
+	
+	@Override
+	public default Vector LinAccel()
+	{
+		return Dynamics().LinAccel();
+	}
 	
 	@Override
 	public default Vector LinForce()

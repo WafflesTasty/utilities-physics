@@ -1,7 +1,7 @@
 package waffles.utils.phys.dynamics.angular;
 
-import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.algebra.elements.linear.vector.Vectors;
+import waffles.utils.geom.spatial.data.spin.Spin;
+import waffles.utils.geom.spatial.maps.fixed.linear.Rotation;
 
 /**
  * An {@code AngularDynamics} defines a basic {@code AngularDynamical.Mutable} implementation.
@@ -15,7 +15,7 @@ import waffles.utils.algebra.elements.linear.vector.Vectors;
  */
 public class AngularDynamics implements AngularDynamical.Mutable
 {
-	private Vector vel;
+	private Spin vel;
 	private float inertia;
 	
 	/**
@@ -25,14 +25,14 @@ public class AngularDynamics implements AngularDynamical.Mutable
 	 */
 	public AngularDynamics(int dim)
 	{
-		vel = Vectors.create(dim);
+		vel = Rotation.Default(dim);
 	}
 	
 		
 	@Override
-	public void setRotSpeed(Vector v)
+	public void setRotSpeed(Spin s)
 	{
-		vel = v;
+		vel = s;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class AngularDynamics implements AngularDynamical.Mutable
 	}
 
 	@Override
-	public Vector RotSpeed()
+	public Spin RotSpeed()
 	{
 		return vel;
 	}

@@ -1,7 +1,7 @@
 package waffles.utils.phys.physical.angular;
 
-import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.geom.Collidable;
+import waffles.utils.geom.spatial.data.spin.Spin;
 import waffles.utils.geom.spatial.types.Rotatable;
 import waffles.utils.phys.dynamics.angular.AngularDynamical;
 
@@ -31,12 +31,12 @@ public interface AngularPhysical extends AngularDynamical.Mutable, Collidable, R
 
 	
 	@Override
-	public default void setRotSpeed(Vector v)
+	public default void setRotSpeed(Spin s)
 	{
 		AngularDynamical.Mutable src = Dynamics().Mutator();
 		if(src != null)
 		{
-			src.setRotSpeed(v);
+			src.setRotSpeed(s);
 		}
 	}
 	
@@ -52,7 +52,7 @@ public interface AngularPhysical extends AngularDynamical.Mutable, Collidable, R
 
 
 	@Override
-	public default Vector RotSpeed()
+	public default Spin RotSpeed()
 	{
 		return Dynamics().RotSpeed();
 	}

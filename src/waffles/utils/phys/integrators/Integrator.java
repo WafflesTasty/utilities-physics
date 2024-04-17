@@ -13,7 +13,7 @@ import waffles.utils.algebra.elements.linear.vector.Vector;
  * @param <O>  an object type
  */
 public interface Integrator<O>
-{
+{	
 	/**
 	 * Bounces two objects off eachother in the {@code Integrator}.
 	 * 
@@ -38,6 +38,15 @@ public interface Integrator<O>
 	 * @see Vector
 	 */
 	public abstract void bounce(O src, Vector p, float c);
+	
+	/**
+	 * Returns an elasticity coefficient in the {@code Integrator}.
+	 * 
+	 * @param src  a source object
+	 * @param tgt  a target object
+	 * @return  an elasticity coefficient
+	 */
+	public abstract float elasticity(O src, O tgt);
 	
 	/**
 	 * Updates an object with the {@code Integrator}.

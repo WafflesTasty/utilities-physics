@@ -20,6 +20,33 @@ import waffles.utils.phys.physical.linear.LinearPhysical;
  */
 public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 {	
+	private float elasticity;
+	
+	/**
+	 * Creates a new {@code LinearImpulse}.
+	 */
+	public LinearImpulse()
+	{
+		elasticity = 1f;
+	}
+	
+	/**
+	 * Changes the default elasticity of the {@code LinearImpulse}.
+	 * 
+	 * @param e  a default elasticity
+	 */
+	public void setElasticity(float e)
+	{
+		elasticity = e;
+	}
+	
+	
+	@Override
+	public float elasticity(P src, P tgt)
+	{
+		return elasticity;
+	}
+	
 	@Override
 	public void bounce(P src, P tgt, Vector p, float c)
 	{
@@ -54,14 +81,12 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 			src.setLinSpeed(m.times(v1).times(c));
 		}
 	}
-	
+		
 	@Override
 	public void update(P src, long time)
 	{		
-		Vector vLin = src.LinSpeed();
-		Vector v = vLin.times(time / 1000f);
-
-		src.setLinSpeed(vLin);
-		src.moveFor(v);
+		float dt = time / 1000f;
+		Vector v = src.LinSpeed();
+		src.moveFor(v.times(dt));
 	}
 }

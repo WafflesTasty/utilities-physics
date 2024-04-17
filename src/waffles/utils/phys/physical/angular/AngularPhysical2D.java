@@ -1,6 +1,6 @@
 package waffles.utils.phys.physical.angular;
 
-import waffles.utils.algebra.elements.linear.vector.fixed.Vector2;
+import waffles.utils.geom.spatial.data.spin.Spin2D;
 import waffles.utils.geom.spatial.types.Rotatable2D;
 
 /**
@@ -19,29 +19,27 @@ public interface AngularPhysical2D extends AngularPhysical, Rotatable2D
 	/**
 	 * Adds an angular speed to the {@code AngularPhysical2D}.
 	 * 
-	 * @param x  an angular velocity x-coordinate
-	 * @param y  an angular velocity y-coordinate
+	 * @param a  a rotation angle
 	 */
-	public default void addRotSpeed(float x, float y)
+	public default void addRotSpeed(float a)
 	{
-		addRotSpeed(new Vector2(x, y));
+		addRotSpeed(new Spin2D(a));
 	}
 	
 	/**
 	 * Changes the angular speed of the {@code AngularPhysical2D}.
 	 * 
-	 * @param x  an angular velocity x-coordinate
-	 * @param y  an angular velocity y-coordinate
+	 * @param a  a rotation angle
 	 */
-	public default void setRotSpeed(float x, float y)
+	public default void setRotSpeed(float a)
 	{
-		setRotSpeed(new Vector2(x, y));
+		setRotSpeed(new Spin2D(a));
 	}
 	
 	
 	@Override
-	public default Vector2 RotSpeed()
+	public default Spin2D RotSpeed()
 	{
-		return (Vector2) AngularPhysical.super.RotSpeed();
+		return (Spin2D) AngularPhysical.super.RotSpeed();
 	}
 }

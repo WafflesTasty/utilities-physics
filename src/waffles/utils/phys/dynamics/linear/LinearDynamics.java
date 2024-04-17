@@ -16,7 +16,7 @@ import waffles.utils.algebra.elements.linear.vector.Vectors;
 public class LinearDynamics implements LinearDynamical.Mutable
 {
 	private float mass;
-	private Vector vFrc, vSpd;
+	private Vector vFrc, vSpd, vAcc;
 	
 	/**
 	 * Creates a new {@code LinearDynamics}.
@@ -25,10 +25,17 @@ public class LinearDynamics implements LinearDynamical.Mutable
 	 */
 	public LinearDynamics(int dim)
 	{
+		vAcc = Vectors.create(dim);
 		vFrc = Vectors.create(dim);
 		vSpd = Vectors.create(dim);
 	}
 	
+	
+	@Override
+	public void setLinAccel(Vector v)
+	{
+		vAcc = v;
+	}
 	
 	@Override
 	public void setLinForce(Vector v)
@@ -46,6 +53,12 @@ public class LinearDynamics implements LinearDynamical.Mutable
 	public void setMass(float m)
 	{
 		mass = m;
+	}
+	
+	@Override
+	public Vector LinAccel()
+	{
+		return vAcc;
 	}
 
 	@Override

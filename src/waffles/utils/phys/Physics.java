@@ -61,6 +61,12 @@ public class Physics<O extends Collidable> implements Integrator<O>, SynchroEven
 	
 	
 	@Override
+	public float elasticity(O src, O tgt)
+	{
+		return itg.elasticity(src, tgt);
+	}
+	
+	@Override
 	public void bounce(O src, O tgt, Vector p, float c)
 	{
 		itg.bounce(src, tgt, p, c);
@@ -94,8 +100,9 @@ public class Physics<O extends Collidable> implements Integrator<O>, SynchroEven
 			if(!rsp.hasImpact())
 			{
 				// ...generate a static impulse.
+				float el = elasticity(obj, null);
 				Vector dst = rsp.Distance();
-				bounce(obj, dst, 1f);
+				bounce(obj, dst, el);
 			}
 		}
 		
@@ -110,8 +117,9 @@ public class Physics<O extends Collidable> implements Integrator<O>, SynchroEven
 			if(rsp.hasImpact())
 			{	
 				// ...generate a dynamic impulse.
+				float el = elasticity(o1, o2);
 				Vector pnt = rsp.Penetration();
-				bounce(o1, o2, pnt, 1f);
+				bounce(o1, o2, pnt, el);
 			}
 		}
 

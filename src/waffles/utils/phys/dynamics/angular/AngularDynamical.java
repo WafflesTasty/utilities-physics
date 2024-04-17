@@ -1,6 +1,6 @@
 package waffles.utils.phys.dynamics.angular;
 
-import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.spatial.data.spin.Spin;
 import waffles.utils.tools.patterns.semantics.Immutable;
 
 /**
@@ -30,25 +30,25 @@ public interface AngularDynamical extends Immutable
 		/**
 		 * Adds to the {@code AngularDynamical} speed.
 		 * 
-		 * @param v  an angular speed
+		 * @param s  a spin speed
 		 * 
 		 * 
-		 * @see Vector
+		 * @see Spin
 		 */
-		public default void addRotSpeed(Vector v)
+		public default void addRotSpeed(Spin s)
 		{
-			setRotSpeed(RotSpeed().plus(v));
+			setRotSpeed(s.compose(RotSpeed()));
 		}
 			
 		/**
 		 * Changes the {@code AngularDynamical} speed.
 		 * 
-		 * @param v  an angular speed
+		 * @param s  a spin speed
 		 * 
 		 * 
-		 * @see Vector
+		 * @see Spin
 		 */
-		public abstract void setRotSpeed(Vector v);
+		public abstract void setRotSpeed(Spin s);
 				
 		/**
 		 * Changes the {@code AngularDynamical} inertia.
@@ -62,12 +62,12 @@ public interface AngularDynamical extends Immutable
 	/**
 	 * Returns the {@code AngularDynamical} speed.
 	 * 
-	 * @return  an angular speed
+	 * @return  a spin speed
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Spin
 	 */
-	public abstract Vector RotSpeed();
+	public abstract Spin RotSpeed();
 		
 	/**
 	 * Returns the {@code AngularDynamical} inertia.

@@ -1,6 +1,7 @@
 package waffles.utils.phys.dynamics;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.spatial.data.spin.Spin;
 import waffles.utils.phys.dynamics.angular.AngularDynamics;
 import waffles.utils.phys.dynamics.linear.LinearDynamics;
 
@@ -32,6 +33,12 @@ public class Dynamics implements Dynamical.Mutable
 	
 	
 	@Override
+	public void setLinAccel(Vector v)
+	{
+		dLin.setLinAccel(v);
+	}
+	
+	@Override
 	public void setLinForce(Vector v)
 	{
 		dLin.setLinForce(v);
@@ -44,9 +51,9 @@ public class Dynamics implements Dynamical.Mutable
 	}
 	
 	@Override
-	public void setRotSpeed(Vector v)
+	public void setRotSpeed(Spin s)
 	{
-		dRot.setRotSpeed(v);
+		dRot.setRotSpeed(s);
 	}
 	
 	@Override
@@ -63,6 +70,12 @@ public class Dynamics implements Dynamical.Mutable
 
 	
 	@Override
+	public Vector LinAccel()
+	{
+		return dLin.LinAccel();
+	}
+	
+	@Override
 	public Vector LinForce()
 	{
 		return dLin.LinForce();
@@ -75,7 +88,7 @@ public class Dynamics implements Dynamical.Mutable
 	}
 	
 	@Override
-	public Vector RotSpeed()
+	public Spin RotSpeed()
 	{
 		return dRot.RotSpeed();
 	}
