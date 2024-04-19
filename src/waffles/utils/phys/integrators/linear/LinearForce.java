@@ -66,9 +66,11 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		{
 			return fDefault;
 		}
+
+		nrm = Floats.sqrt(nrm);
+		nrm = (nrm - max) / nrm;
 		
-		nrm = max - Floats.sqrt(nrm);
-		v = v.times(src.Mass() * nrm);
+		v = v.times(nrm / src.Mass());
 		return fDefault.plus(v);
 	}
 
@@ -86,7 +88,7 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		
 		
 		Vector fNew = fLin.plus(Force(src));
-		Vector aNew = fNew.times(dtm).plus(aLin).times(1f / 2);
+		Vector aNew = fNew.times(dtm).plus(aLin).times(0.5f);
 		Vector vNew = vLin.plus(aLin.plus(aNew).times(dt / 2));
 		Vector xNew = vLin.times(dt).plus(aLin.times(ddt));
 

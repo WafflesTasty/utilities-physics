@@ -21,31 +21,31 @@ import waffles.utils.tools.primitives.Floats;
  */
 public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 {	
-	private float elasticity;
+	private float cElast;
 	
 	/**
 	 * Creates a new {@code LinearImpulse}.
 	 */
 	public LinearImpulse()
 	{
-		elasticity = 1f;
+		cElast = 1f;
 	}
 	
 	/**
-	 * Changes the elasticity of the {@code LinearImpulse}.
+	 * Changes the cElast of the {@code LinearImpulse}.
 	 * 
-	 * @param e  a default elasticity
+	 * @param e  a default cElast
 	 */
 	public void setElasticity(float e)
 	{
-		elasticity = e;
+		cElast = e;
 	}
 	
 	
 	@Override
 	public float elasticity(P src, P tgt)
 	{
-		return elasticity;
+		return cElast;
 	}
 	
 	@Override
@@ -65,11 +65,11 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 		float mAvg = (m1 + m2) / 2;
 		float pScl = vDot / (pDot * mAvg);
 		
-		Vector w1 = p.times(+m2 * pScl);
-		Vector w2 = p.times(-m1 * pScl);
+		Vector w1 = p.times(+m2 * pScl * c);
+		Vector w2 = p.times(-m1 * pScl * c);
 
-		src.setLinSpeed(v1.plus(w1).times(c));
-		tgt.setLinSpeed(v2.plus(w2).times(c));
+		src.setLinSpeed(v1.plus(w1));
+		tgt.setLinSpeed(v2.plus(w2));
 	}
 	
 	@Override

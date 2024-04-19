@@ -56,7 +56,7 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Mov
 			float max = src.MaxLinSpeed();
 			if(vel > max * max)
 			{
-				float s = max / Floats.sqrt(vel);
+				float s = 0.95f * max / Floats.sqrt(vel);
 				w = v.times(s);
 			}
 			
