@@ -4,9 +4,13 @@ import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.geom.Collidable;
 import waffles.utils.geom.spatial.types.Movable;
 import waffles.utils.phys.dynamics.linear.LinearDynamical;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * A {@code LinearPhysical} defines a collidable object with linear Newtonian physics.
+ * Its maximum acceleration is capped by the maximum speed of its {@code Dynamics}.
+ * This makes it safer to integrate over while still allowing the internal
+ * value to be adjusted arbitrarily.
  *
  * @author Waffles
  * @since Jul 12, 2017
@@ -31,12 +35,32 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Mov
 
 	
 	@Override
+	public default void setMaxLinSpeed(float v)
+	{
+		LinearDynamical.Mutable src = Dynamics().Mutator();
+		if(src != null)
+		{
+			src.setMaxLinSpeed(v);
+		}
+	}
+	
+	@Override
 	public default void setLinAccel(Vector v)
 	{
 		LinearDynamical.Mutable src = Dynamics().Mutator();
 		if(src != null)
 		{
-			src.setLinAccel(v);
+			Vector w = v;
+			
+			float vel = w.normSqr();
+			float max = src.MaxLinSpeed();
+			if(vel > max * max)
+			{
+				float s = max / Floats.sqrt(vel);
+				w = v.times(s);
+			}
+			
+			src.setLinAccel(w);
 		}
 	}
 	
@@ -70,6 +94,12 @@ public interface LinearPhysical extends LinearDynamical.Mutable, Collidable, Mov
 		}
 	}
 	
+	
+	@Override
+	public default float MaxLinSpeed()
+	{
+		return Dynamics().MaxLinSpeed();
+	}
 	
 	@Override
 	public default Vector LinAccel()

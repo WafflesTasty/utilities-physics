@@ -33,6 +33,12 @@ public class Dynamics implements Dynamical.Mutable
 	
 	
 	@Override
+	public void setMaxLinSpeed(float v)
+	{
+		dLin.setMaxLinSpeed(v);
+	}
+	
+	@Override
 	public void setLinAccel(Vector v)
 	{
 		dLin.setLinAccel(v);
@@ -68,6 +74,12 @@ public class Dynamics implements Dynamical.Mutable
 		dLin.setMass(m);
 	}
 
+	
+	@Override
+	public float MaxLinSpeed()
+	{
+		return dLin.MaxLinSpeed();
+	}
 	
 	@Override
 	public Vector LinAccel()

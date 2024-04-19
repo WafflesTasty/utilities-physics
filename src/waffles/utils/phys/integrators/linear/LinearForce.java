@@ -3,6 +3,7 @@ package waffles.utils.phys.integrators.linear;
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.algebra.elements.linear.vector.Vectors;
 import waffles.utils.phys.physical.linear.LinearPhysical;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * A {@code LinearForce} integrates linear impulse collisions and resolves linear forces.
@@ -19,7 +20,7 @@ import waffles.utils.phys.physical.linear.LinearPhysical;
  */
 public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 {	
-	private Vector vDefault;
+	private Vector fDefault;
 	
 	/**
 	 * Creates a new {@code LinearForce}.
@@ -28,26 +29,27 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 	 */
 	public LinearForce(int dim)
 	{
-		vDefault = Vectors.create(dim);
+		fDefault = Vectors.create(dim);
 	}
-		
+	
 	/**
 	 * Changes the default force {@code Vector}.
 	 * This can be used in cases where the external
 	 * force acting on all objects is constant.
 	 * 
-	 * @param v  a force vector
+	 * @param f  a force vector
 	 * 
 	 * 
 	 * @see Vector
 	 */
-	public void setForce(Vector v)
+	public void setForce(Vector f)
 	{
-		vDefault = v;
+		fDefault = f;
 	}
 	
 	/**
 	 * Returns the {@code Force} acting on an object.
+	 * This adds the default force to object drag.
 	 * 
 	 * @param src  a source object
 	 * @return     an external force
@@ -57,7 +59,17 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 	 */
 	public Vector Force(P src)
 	{
-		return vDefault;
+		Vector v = src.LinSpeed();
+		float max = src.MaxLinSpeed();
+		float nrm = v.normSqr();
+		if(nrm < max * max)
+		{
+			return fDefault;
+		}
+		
+		nrm = max - Floats.sqrt(nrm);
+		v = v.times(src.Mass() * nrm);
+		return fDefault.plus(v);
 	}
 
 
@@ -74,7 +86,7 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		
 		
 		Vector fNew = fLin.plus(Force(src));
-		Vector aNew = fNew.times(dtm).plus(aLin).times(0.5f);
+		Vector aNew = fNew.times(dtm).plus(aLin).times(1f / 2);
 		Vector vNew = vLin.plus(aLin.plus(aNew).times(dt / 2));
 		Vector xNew = vLin.times(dt).plus(aLin.times(ddt));
 

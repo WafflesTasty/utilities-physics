@@ -2,6 +2,7 @@ package waffles.utils.phys.dynamics.linear;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.algebra.elements.linear.vector.Vectors;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * A {@code LinearDynamics} defines a basic {@code LinearDynamical.Mutable} implementation.
@@ -15,7 +16,7 @@ import waffles.utils.algebra.elements.linear.vector.Vectors;
  */
 public class LinearDynamics implements LinearDynamical.Mutable
 {
-	private float mass;
+	private float vMax, mass;
 	private Vector vFrc, vSpd, vAcc;
 	
 	/**
@@ -28,8 +29,15 @@ public class LinearDynamics implements LinearDynamical.Mutable
 		vAcc = Vectors.create(dim);
 		vFrc = Vectors.create(dim);
 		vSpd = Vectors.create(dim);
+		vMax = Floats.POS_INFINITY;
 	}
 	
+	
+	@Override
+	public void setMaxLinSpeed(float v)
+	{
+		vMax = v;
+	}
 	
 	@Override
 	public void setLinAccel(Vector v)
@@ -53,6 +61,13 @@ public class LinearDynamics implements LinearDynamical.Mutable
 	public void setMass(float m)
 	{
 		mass = m;
+	}
+	
+	
+	@Override
+	public float MaxLinSpeed()
+	{
+		return vMax;
 	}
 	
 	@Override

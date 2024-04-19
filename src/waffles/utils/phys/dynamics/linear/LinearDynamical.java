@@ -66,6 +66,14 @@ public interface LinearDynamical extends Immutable
 			setLinSpeed(LinSpeed().plus(v));
 		}
 		
+		
+		/**
+		 * Changes the maximum {@code LinearDynamical} speed.
+		 * 
+		 * @param v  a maximum speed
+		 */
+		public abstract void setMaxLinSpeed(float v);
+		
 		/**
 		 * Changes the {@code LinearDynamical} acceleration.
 		 * 
@@ -106,6 +114,13 @@ public interface LinearDynamical extends Immutable
 	
 	
 	/**
+	 * Returns the maximum {@code LinearDynamical} speed.
+	 * 
+	 * @return  a maximum speed
+	 */
+	public abstract float MaxLinSpeed();
+	
+	/**
 	 * Returns the {@code LinearDynamical} acceleration.
 	 * 
 	 * @return  a linear acceleration
@@ -134,7 +149,7 @@ public interface LinearDynamical extends Immutable
 	 * @see Vector
 	 */
 	public abstract Vector LinSpeed();
-		
+			
 	/**
 	 * Returns the {@code LinearDynamical} mass.
 	 * 

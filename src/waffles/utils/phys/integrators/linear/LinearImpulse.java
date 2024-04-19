@@ -5,6 +5,7 @@ import waffles.utils.algebra.elements.linear.matrix.Matrix;
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.phys.integrators.Integrator;
 import waffles.utils.phys.physical.linear.LinearPhysical;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * A {@code LinearImpulse} integrates linear impulse collisions.
@@ -31,7 +32,7 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 	}
 	
 	/**
-	 * Changes the default elasticity of the {@code LinearImpulse}.
+	 * Changes the elasticity of the {@code LinearImpulse}.
 	 * 
 	 * @param e  a default elasticity
 	 */
@@ -78,7 +79,8 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 		if(v1.dot(p) <= 0)
 		{
 			Matrix m = Matrices.reflection(p);
-			src.setLinSpeed(m.times(v1).times(c));
+			v1 = m.times(v1).times(c);
+			src.setLinSpeed(v1);
 		}
 	}
 		
@@ -87,6 +89,17 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 	{		
 		float dt = time / 1000f;
 		Vector v = src.LinSpeed();
-		src.moveFor(v.times(dt));
+		
+		float max = src.MaxLinSpeed();
+		float nrm = v.normSqr();
+		if(nrm < max * max)
+			v = v.times(dt);
+		else
+		{
+			nrm = max / Floats.sqrt(nrm);
+			v = v.times(nrm * dt);
+		}
+		
+		src.moveFor(v);
 	}
 }
