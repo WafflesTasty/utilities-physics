@@ -108,6 +108,7 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		Vector vNew = vLin.plus(aLin.plus(aNew).times(dt / 2));
 		Vector xNew = vLin.times(dt).plus(aLin.times(ddt));
 
+
 		src.setLinAccel(aNew);
 		src.setLinSpeed(vNew);
 		src.moveFor(xNew);

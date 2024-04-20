@@ -132,7 +132,6 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 		return (beat) ->
 		{
 			Bounds bnd = Manifold().Bounds();
-			
 			// For each object in the space...
 			for(O obj : Manifold())
 			{
@@ -150,6 +149,7 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 				}
 			}
 			
+
 			// For each potential collision pair...
 			for(Pair<O, O> p : Manifold().Pairs())
 			{
@@ -175,6 +175,7 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 				update(obj, beat);
 				Manifold().add(obj);
 			}
+
 			queue.clear();
 		};
 	}
