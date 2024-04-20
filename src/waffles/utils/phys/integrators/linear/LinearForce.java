@@ -20,6 +20,7 @@ import waffles.utils.tools.primitives.Floats;
  */
 public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 {	
+	private float fScale;
 	private Vector fDefault;
 	
 	/**
@@ -30,6 +31,19 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 	public LinearForce(int dim)
 	{
 		fDefault = Vectors.create(dim);
+		fScale = 1f;
+	}
+	
+	/**
+	 * Changes the {@code LinearForce} scale.
+	 * This value is multiplied with the resultant
+	 * force to scale small forces appropriately.
+	 * 
+	 * @param s  a force scale
+	 */
+	public void setScale(float s)
+	{
+		fScale = s;
 	}
 	
 	/**
@@ -78,17 +92,19 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 	@Override
 	public void update(P src, long time)
 	{
-		float dt  = time / 1000f;
-		float dtm = time / src.Mass();
+		float t = time;
+		float dt = time / 1000f;
 		float ddt = dt * dt / 2;
+		float mass = src.Mass();
+		float s = fScale / mass;
 		
 		Vector vLin = src.LinSpeed();
 		Vector aLin = src.LinAccel();
 		Vector fLin = src.LinForce();
 		
 		
-		Vector fNew = fLin.plus(Force(src));
-		Vector aNew = fNew.times(dtm).plus(aLin).times(0.5f);
+		Vector fNew = fLin.plus(Force(src)).times(s);
+		Vector aNew = fNew.times(t).plus(aLin).times(0.5f);
 		Vector vNew = vLin.plus(aLin.plus(aNew).times(dt / 2));
 		Vector xNew = vLin.times(dt).plus(aLin.times(ddt));
 
