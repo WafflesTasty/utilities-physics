@@ -8,6 +8,7 @@ package waffles.utils.phys.utilities.events;
  * @since Jul 12, 2017
  * @version 1.0
  */
+@FunctionalInterface
 public interface SynchroEvent
 {
 	/**
@@ -15,8 +16,5 @@ public interface SynchroEvent
 	 * 
 	 * @param time  a time interval (in ms)
 	 */
-	public default void onUpdate(long time)
-	{
-		// NOT APPLICABLE
-	}
+	public abstract void onUpdate(long time);
 }

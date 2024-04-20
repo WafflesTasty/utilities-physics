@@ -5,6 +5,8 @@ import waffles.utils.algebra.elements.linear.matrix.Matrix;
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.phys.integrators.Integrator;
 import waffles.utils.phys.physical.linear.LinearPhysical;
+import waffles.utils.sets.indexed.delegate.List;
+import waffles.utils.sets.keymaps.delegate.JHashMap;
 import waffles.utils.tools.primitives.Floats;
 
 /**
@@ -22,12 +24,15 @@ import waffles.utils.tools.primitives.Floats;
 public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 {	
 	private float cElast;
+	private JHashMap<P, List<P>> prev, curr;
 	
 	/**
 	 * Creates a new {@code LinearImpulse}.
 	 */
 	public LinearImpulse()
 	{
+		prev = new JHashMap<>();
+		curr = new JHashMap<>();
 		cElast = 1f;
 	}
 	
@@ -51,6 +56,11 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 	@Override
 	public void bounce(P src, P tgt, Vector p, float c)
 	{
+		if(checkMap(src, tgt))
+			return;
+		if(checkMap(tgt, src))
+			return;
+
 		float m1 = src.Mass();
 		float m2 = tgt.Mass();
 		
@@ -86,11 +96,12 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 		
 	@Override
 	public void update(P src, long time)
-	{		
+	{	
 		float dt = time / 1000f;
-		Vector v = src.LinSpeed();
-		
 		float max = src.MaxLinSpeed();
+		Vector v = src.LinSpeed();
+
+		
 		float nrm = v.normSqr();
 		if(nrm < max * max)
 			v = v.times(dt);
@@ -100,6 +111,27 @@ public class LinearImpulse<P extends LinearPhysical> implements Integrator<P>
 			v = v.times(nrm * dt);
 		}
 		
+		
 		src.moveFor(v);
+		List<P> list = curr.remove(src);
+		prev.put(src, list);
+	}
+	
+	boolean checkMap(P src, P tgt)
+	{
+		List<P> list = prev.get(src);
+		if(list == null)
+		{
+			list = new List<>();
+			curr.put(src, list);
+		}
+		
+		if(list.contains(tgt))
+		{
+			return true;
+		}
+		
+		list.add(tgt);
+		return false;
 	}
 }

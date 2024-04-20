@@ -6,6 +6,8 @@ import waffles.utils.geom.Collision.Response;
 import waffles.utils.geom.collidable.axial.cuboid.HyperCuboid;
 import waffles.utils.geom.spaces.Manifold;
 import waffles.utils.phys.integrators.Integrator;
+import waffles.utils.phys.integrators.fixed.Delegator;
+import waffles.utils.phys.utilities.events.PulseEvent;
 import waffles.utils.phys.utilities.events.SynchroEvent;
 import waffles.utils.sets.keymaps.Pair;
 import waffles.utils.sets.queues.Queue;
@@ -20,117 +22,161 @@ import waffles.utils.sets.queues.delegate.JFIFOQueue;
  *
  *
  * @param <O>  an object type
- * @see SynchroEvent
  * @see Collidable
- * @see Integrator
+ * @see PulseEvent
+ * @see Delegator
  */
-public class Physics<O extends Collidable> implements Integrator<O>, SynchroEvent
+public class Physics<O extends Collidable> extends PulseEvent implements Delegator<O>
 {
-	private Queue<O> queue;
 	private Manifold<O> src;
 	private Integrator<O> itg;
+	private Queue<O> queue;
 	
 	/**
 	 * Creates a new {@code Physics}.
 	 * 
 	 * @param i  a physics integrator
 	 * @param s  a manifold space
+	 * @param b  a beat size
 	 * 
 	 * 
 	 * @see Integrator
 	 * @see Manifold
 	 */
-	public Physics(Integrator<O> i, Manifold<O> s)
+	public Physics(Integrator<O> i, Manifold<O> s, int b)
 	{
-		queue = new JFIFOQueue<>();
+		super(b);
 		itg = i; src = s;
+		queue = new JFIFOQueue<>();
 	}
 	
 	/**
-	 * Returns the space of the {@code Physics}.
+	 * Creates a new {@code Physics}.
+	 * 
+	 * @param s  a manifold space
+	 * @param b  a beat size
+	 * 
+	 * 
+	 * @see Integrator
+	 * @see Manifold
+	 */
+	public Physics(Manifold<O> s, int b)
+	{
+		this(null, s, b);
+	}
+	
+	/**
+	 * Creates a new {@code Physics}.
+	 * 
+	 * @param b  a beat size
+	 * 
+	 * 
+	 * @see Integrator
+	 * @see Manifold
+	 */
+	public Physics(int b)
+	{
+		this(null, b);
+	}
+
+	
+	/**
+	 * Returns the physics {@code Manifold}.
 	 * 
 	 * @return  a manifold space
 	 * 
 	 * 
 	 * @see Manifold
 	 */
-	public Manifold<O> Space()
+	public Manifold<O> Manifold()
 	{
 		return src;
 	}
 	
+	/**
+	 * Changes the physics {@code Manifold}.
+	 * 
+	 * @param s  a manifold source
+	 * 
+	 * 
+	 * @see Manifold
+	 */
+	public void setManifold(Manifold<O> s)
+	{
+		src = s;
+	}
+	
+	/**
+	 * Changes the physics {@code Integrator}.
+	 * 
+	 * @param i  a time integrator
+	 * 
+	 * 
+	 * @see Integrator
+	 */
+	public void setIntegrator(Integrator<O> i)
+	{
+		itg = i;
+	}
+	
 	
 	@Override
-	public float elasticity(O src, O tgt)
+	public Integrator<O> Integrator()
 	{
-		return itg.elasticity(src, tgt);
+		return itg;
 	}
 	
 	@Override
-	public void bounce(O src, O tgt, Vector p, float c)
+	public SynchroEvent Pulse()
 	{
-		itg.bounce(src, tgt, p, c);
-	}
-
-	@Override
-	public void bounce(O src, Vector p, float c)
-	{
-		itg.bounce(src, p, c);
-	}	
-	
-	@Override
-	public void update(O src, long time)
-	{
-		itg.update(src, time);
-	}
-	
-	@Override
-	public void onUpdate(long time)
-	{
-		HyperCuboid bnd = src.Bounds().Box();
-		
-		// For each object in the space...
-		for(O obj : src)
+		return (beat) ->
 		{
-			// ...queue the object.
-			queue.push(obj);
+			Manifold<O> mfd = Manifold();
+			HyperCuboid bnd = mfd.Bounds().Box();
 			
-			// If it is outside the boundary...
-			Response rsp = bnd.contain(obj);
-			if(!rsp.hasImpact())
+			// For each object in the space...
+			for(O obj : mfd)
 			{
-				// ...generate a static impulse.
-				float el = elasticity(obj, null);
-				Vector dst = rsp.Distance();
-				bounce(obj, dst, el);
+				// ...queue the object.
+				queue.push(obj);
+				
+				// If it is outside the boundary...
+				Response rsp = bnd.contain(obj);
+				if(!rsp.hasImpact())
+				{
+					// ...generate a static impulse.
+					float el = elasticity(obj, null);
+					Vector dst = rsp.Distance();
+					bounce(obj, dst, el);
+				}
 			}
-		}
-		
-		// For each potential collision pair...
-		for(Pair<O, O> p : src.Pairs())
-		{
-			O o1 = p.Key();
-			O o2 = p.Value();
-
-			// If collision occurs between them...
-			Response rsp = o1.intersect(o2);
-			if(rsp.hasImpact())
-			{	
-				// ...generate a dynamic impulse.
-				float el = elasticity(o1, o2);
-				Vector pnt = rsp.Penetration();
-				bounce(o1, o2, pnt, el);
+			
+			// For each potential collision pair...
+			for(Pair<O, O> p : mfd.Pairs())
+			{
+				O o1 = p.Key();
+				O o2 = p.Value();
+	
+				// If collision occurs between them...
+				Response rsp = o1.intersect(o2);
+				if(rsp.hasImpact())
+				{	
+					// ...generate a dynamic impulse.
+					float el = elasticity(o1, o2);
+					Vector pnt = rsp.Penetration();
+					bounce(o1, o2, pnt, el);
+				}
 			}
-		}
-
-		
-		src.clear();
-		// Update the target space.
-		for(O obj : queue)
-		{
-			update(obj, time);
-			src.add(obj);
-		}
-		queue.clear();
+	
+			
+			mfd.clear();
+			// Update the target space.
+			for(O obj : queue)
+			{
+				update(obj, beat);
+				mfd.add(obj);
+			}
+			queue.clear();
+		};
 	}
 }
