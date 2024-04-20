@@ -3,11 +3,11 @@ package waffles.utils.phys;
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.geom.Collidable;
 import waffles.utils.geom.Collision.Response;
-import waffles.utils.geom.collidable.axial.cuboid.HyperCuboid;
+import waffles.utils.geom.bounds.Bounds;
 import waffles.utils.geom.spaces.Manifold;
 import waffles.utils.phys.integrators.Integrator;
 import waffles.utils.phys.integrators.fixed.Delegator;
-import waffles.utils.phys.utilities.events.PulseEvent;
+import waffles.utils.phys.utilities.events.SteppedEvent;
 import waffles.utils.phys.utilities.events.SynchroEvent;
 import waffles.utils.sets.keymaps.Pair;
 import waffles.utils.sets.queues.Queue;
@@ -22,11 +22,11 @@ import waffles.utils.sets.queues.delegate.JFIFOQueue;
  *
  *
  * @param <O>  an object type
+ * @see SteppedEvent
  * @see Collidable
- * @see PulseEvent
  * @see Delegator
  */
-public class Physics<O extends Collidable> extends PulseEvent implements Delegator<O>
+public class Physics<O extends Collidable> extends SteppedEvent implements Delegator<O>
 {
 	private Manifold<O> src;
 	private Integrator<O> itg;
@@ -131,17 +131,16 @@ public class Physics<O extends Collidable> extends PulseEvent implements Delegat
 	{
 		return (beat) ->
 		{
-			Manifold<O> mfd = Manifold();
-			HyperCuboid bnd = mfd.Bounds().Box();
+			Bounds bnd = Manifold().Bounds();
 			
 			// For each object in the space...
-			for(O obj : mfd)
+			for(O obj : Manifold())
 			{
 				// ...queue the object.
 				queue.push(obj);
 				
 				// If it is outside the boundary...
-				Response rsp = bnd.contain(obj);
+				Response rsp = bnd.Box().contain(obj);
 				if(!rsp.hasImpact())
 				{
 					// ...generate a static impulse.
@@ -152,7 +151,7 @@ public class Physics<O extends Collidable> extends PulseEvent implements Delegat
 			}
 			
 			// For each potential collision pair...
-			for(Pair<O, O> p : mfd.Pairs())
+			for(Pair<O, O> p : Manifold().Pairs())
 			{
 				O o1 = p.Key();
 				O o2 = p.Value();
@@ -169,12 +168,12 @@ public class Physics<O extends Collidable> extends PulseEvent implements Delegat
 			}
 	
 			
-			mfd.clear();
+			Manifold().clear();
 			// Update the target space.
 			for(O obj : queue)
 			{
 				update(obj, beat);
-				mfd.add(obj);
+				Manifold().add(obj);
 			}
 			queue.clear();
 		};

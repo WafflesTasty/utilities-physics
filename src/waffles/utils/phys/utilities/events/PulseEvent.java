@@ -35,6 +35,15 @@ public abstract class PulseEvent implements SynchroEvent
 	 */
 	public abstract SynchroEvent Pulse();
 
+	/**
+	 * An event raised on pulsing the {@code PulseEvent}.
+	 * By default, this updates the {@link #Pulse()}.
+	 */
+	public void onPulse()
+	{
+		Pulse().onUpdate(beat);
+	}
+	
 
 	@Override
 	public void onUpdate(long time)
@@ -43,7 +52,7 @@ public abstract class PulseEvent implements SynchroEvent
 		while(delta >= beat)
 		{
 			delta -= beat;
-			Pulse().onUpdate(beat);
+			onPulse();
 		}
 	}
 }
