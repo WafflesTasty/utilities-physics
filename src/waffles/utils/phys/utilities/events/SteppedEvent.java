@@ -23,6 +23,16 @@ public abstract class SteppedEvent extends PulseEvent
 	{
 		super(beat);
 	}
+	
+	/**
+	 * Checks the state of the {@code SteppedEvent}.
+	 * 
+	 * @return  {@code true} if running
+	 */
+	public boolean isRunning()
+	{
+		return isRunning;
+	}
 
 
 	/**
@@ -54,7 +64,7 @@ public abstract class SteppedEvent extends PulseEvent
 	@Override
 	public void onUpdate(long time)
 	{       
-		if(isRunning)
+		if(isRunning())
 		{
 			super.onUpdate(time);
 		}
