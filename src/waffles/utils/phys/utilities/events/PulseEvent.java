@@ -26,25 +26,23 @@ public abstract class PulseEvent implements SynchroEvent
 	}
 	
 	/**
-	 * Returns a {@code SynchroEvent} to pulse.
+	 * An event raised on pulsing the {@code PulseEvent}.
 	 * 
-	 * @return  a synchro event
-	 * 
-	 * 
-	 * @see SynchroEvent
+	 * @param beat  a beat time
 	 */
-	public abstract SynchroEvent Pulse();
+	public abstract void onPulse(long beat);
 
 	/**
-	 * An event raised on pulsing the {@code PulseEvent}.
-	 * By default, this updates the {@link #Pulse()}.
+	 * Returns the beat of the {@code PulseEvent}.
+	 * 
+	 * @return  a beat time
 	 */
-	public void onPulse()
+	public long Beat()
 	{
-		Pulse().onUpdate(beat);
+		return beat;
 	}
 	
-
+	
 	@Override
 	public void onUpdate(long time)
 	{
@@ -52,7 +50,7 @@ public abstract class PulseEvent implements SynchroEvent
 		while(delta >= beat)
 		{
 			delta -= beat;
-			onPulse();
+			onPulse(beat);
 		}
 	}
 }
