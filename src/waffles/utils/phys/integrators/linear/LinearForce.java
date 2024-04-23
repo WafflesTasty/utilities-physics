@@ -88,6 +88,16 @@ public class LinearForce<P extends LinearPhysical> extends LinearImpulse<P>
 		return fDefault.plus(v);
 	}
 
+	/**
+	 * Returns the dimension of the {@code LinearForce}.
+	 * 
+	 * @return  a vector dimension
+	 */
+	public int Dimension()
+	{
+		return fDefault.Size();
+	}
+	
 
 	@Override
 	public void update(P src, long time)

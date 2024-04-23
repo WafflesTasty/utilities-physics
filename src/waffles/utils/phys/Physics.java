@@ -26,7 +26,7 @@ import waffles.utils.sets.queues.delegate.JFIFOQueue;
  * @see Collidable
  * @see Delegator
  */
-public class Physics<O extends Collidable> extends SteppedEvent implements Delegator<O>
+public abstract class Physics<O extends Collidable> extends SteppedEvent implements Delegator<O>
 {
 	/**
 	 * A {@code Pulse} defines the main {@code PulseEvent} of a {@code Physics} event.
@@ -109,41 +109,6 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 	
 	
 	private Pulse pulse;
-	private Manifold<O> src;
-	private Integrator<O> itg;
-	
-	/**
-	 * Creates a new {@code Physics}.
-	 * 
-	 * @param i  a physics integrator
-	 * @param s  a manifold space
-	 * @param b  a beat size
-	 * 
-	 * 
-	 * @see Integrator
-	 * @see Manifold
-	 */
-	public Physics(Integrator<O> i, Manifold<O> s, int b)
-	{
-		itg = i; src = s;
-		
-		pulse = new Pulse(b);
-	}
-	
-	/**
-	 * Creates a new {@code Physics}.
-	 * 
-	 * @param s  a manifold space
-	 * @param b  a beat size
-	 * 
-	 * 
-	 * @see Integrator
-	 * @see Manifold
-	 */
-	public Physics(Manifold<O> s, int b)
-	{
-		this(null, s, b);
-	}
 	
 	/**
 	 * Creates a new {@code Physics}.
@@ -156,10 +121,9 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 	 */
 	public Physics(int b)
 	{
-		this(null, b);
+		pulse = new Pulse(b);
 	}
 
-	
 	/**
 	 * Returns the physics {@code Manifold}.
 	 * 
@@ -168,43 +132,8 @@ public class Physics<O extends Collidable> extends SteppedEvent implements Deleg
 	 * 
 	 * @see Manifold
 	 */
-	public Manifold<O> Manifold()
-	{
-		return src;
-	}
-	
-	/**
-	 * Changes the physics {@code Manifold}.
-	 * 
-	 * @param s  a manifold source
-	 * 
-	 * 
-	 * @see Manifold
-	 */
-	public void setManifold(Manifold<O> s)
-	{
-		src = s;
-	}
-	
-	/**
-	 * Changes the physics {@code Integrator}.
-	 * 
-	 * @param i  a time integrator
-	 * 
-	 * 
-	 * @see Integrator
-	 */
-	public void setIntegrator(Integrator<O> i)
-	{
-		itg = i;
-	}
-	
-	
-	@Override
-	public Integrator<O> Integrator()
-	{
-		return itg;
-	}
+	public abstract Manifold<O> Manifold();
+
 	
 	@Override
 	public void onStep()

@@ -30,6 +30,7 @@ public class LinearDynamics implements LinearDynamical.Mutable
 		vFrc = Vectors.create(dim);
 		vSpd = Vectors.create(dim);
 		vMax = Floats.POS_INFINITY;
+		mass = 1f;
 	}
 	
 	
