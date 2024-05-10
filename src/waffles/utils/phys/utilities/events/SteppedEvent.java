@@ -1,24 +1,29 @@
 package waffles.utils.phys.utilities.events;
 
 /**
- * A {@code SteppedEvent} can be started, stepped and paused.
+ * A {@code SteppedEvent} is a pulse event which can be started, stepped and paused.
  * 
  * @author Waffles
  * @since Sep 28, 2019
  * @version 1.1
  * 
  * 
- * @see SynchroEvent
+ * @see PulseEvent
  */
-public abstract class SteppedEvent implements SynchroEvent
+public abstract class SteppedEvent extends PulseEvent
 {
 	private boolean isRunning;
-
-	/**
-	 * An event raised when the {@code SteppedEvent} steps.
-	 */
-	public abstract void onStep();
 	
+	/**
+	 * Creates a new {@code SteppedEvent}.
+	 * 
+	 * @param beat  a beat time
+	 */
+	public SteppedEvent(long beat)
+	{
+		super(beat);
+	}
+
 	/**
 	 * Checks the state of the {@code SteppedEvent}.
 	 * 
@@ -43,7 +48,7 @@ public abstract class SteppedEvent implements SynchroEvent
 	public void step()
 	{
 		isRunning = false;
-		onStep();
+		onPulse(Beat());
 	}
 	
 	/**
@@ -60,7 +65,7 @@ public abstract class SteppedEvent implements SynchroEvent
 	{       
 		if(!isIdle())
 		{
-			onStep();
+			super.onUpdate(time);
 		}
 	}
 }
