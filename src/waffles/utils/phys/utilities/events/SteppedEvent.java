@@ -1,5 +1,7 @@
 package waffles.utils.phys.utilities.events;
 
+import waffles.utils.phys.utilities.Steppable;
+
 /**
  * A {@code SteppedEvent} is a pulse event which can be started, stepped and paused.
  * 
@@ -9,8 +11,9 @@ package waffles.utils.phys.utilities.events;
  * 
  * 
  * @see PulseEvent
+ * @see Steppable
  */
-public abstract class SteppedEvent extends PulseEvent
+public abstract class SteppedEvent extends PulseEvent implements Steppable
 {
 	private boolean isRunning;
 	
@@ -33,31 +36,6 @@ public abstract class SteppedEvent extends PulseEvent
 	{
 		return !isRunning;
 	}
-
-	/**
-	 * Pauses the {@code SteppedEvent}.
-	 */
-	public void pause()
-	{
-		isRunning = false;
-	}
-	
-	/**
-	 * Steps the {@code SteppedEvent}.
-	 */
-	public void step()
-	{
-		isRunning = false;
-		onPulse(Beat());
-	}
-	
-	/**
-	 * Runs the {@code SteppedEvent}.
-	 */
-	public void run()
-	{
-		isRunning = true;
-	}
 	
 	
 	@Override
@@ -67,5 +45,25 @@ public abstract class SteppedEvent extends PulseEvent
 		{
 			super.onUpdate(time);
 		}
+	}
+	
+
+	@Override
+	public void pause()
+	{
+		isRunning = false;
+	}
+	
+	@Override
+	public void step()
+	{
+		isRunning = false;
+		onPulse(Beat());
+	}
+
+	@Override
+	public void run()
+	{
+		isRunning = true;
 	}
 }
