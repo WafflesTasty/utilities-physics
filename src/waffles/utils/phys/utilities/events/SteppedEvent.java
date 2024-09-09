@@ -7,7 +7,7 @@ import waffles.utils.phys.utilities.Steppable;
  * 
  * @author Waffles
  * @since Sep 28, 2019
- * @version 1.1
+ * @version 1.0
  * 
  * 
  * @see PulseEvent

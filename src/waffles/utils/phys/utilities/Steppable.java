@@ -5,7 +5,7 @@ package waffles.utils.phys.utilities;
  *
  * @author Waffles
  * @since 11 May 2024
- * @version 1.1
+ * @version 1.0
  */
 public interface Steppable
 {

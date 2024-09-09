@@ -6,7 +6,7 @@ package waffles.utils.phys.utilities.events;
  *
  * @author Waffles
  * @since 20 Apr 2024
- * @version 1.1
+ * @version 1.0
  *
  * 
  * @see SynchroEvent
