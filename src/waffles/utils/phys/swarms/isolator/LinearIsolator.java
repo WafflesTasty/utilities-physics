@@ -57,6 +57,7 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 				 LinearDrag.super.onPulse(src, time);
 		}
 	
+		
 		@Override
 		public Geometry Bounds(int dim)
 		{
@@ -71,7 +72,6 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 				return null;
 			}
 		}		
-		
 		
 		@Override
 		public float IsolationScale()
@@ -110,38 +110,27 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 	 */
 	public LinearIsolator(Manifold<D> mfd)
 	{
-		this(mfd, Bounds.Type.BOX);
+		bound = Bounds.Type.BOX;
+		manifold = mfd;
+		
+		bMult = 1f;
+		dMult = 1f;
+		iMult = 1f;
 	}
 	
+	
 	/**
-	 * Creates a new {@code LinearIsolator}.
+	 * Changes the bounds of the isolator.
 	 * 
-	 * @param mfd  a drone manifold
 	 * @param bnd  a bounds type
 	 * 
 	 * 
-	 * @see Manifold
 	 * @see Bounds
 	 */
-	public LinearIsolator(Manifold<D> mfd, Bounds.Type bnd)
+	public void setBounds(Bounds.Type bnd)
 	{
-		manifold = mfd;
 		bound = bnd;
-		
-		bMult = 1f;
-		iMult = 1;
 	}
-	
-	
-	/**
-	 * Changes the scale of the isolation force.
-	 * 
-	 * @param fMult  a force multiplier
-	 */
-	public void setIsolationScale(float fMult)
-	{
-		iMult = fMult;
-	}	
 	
 	/**
 	 * Changes the scale of the bounded force.
@@ -154,6 +143,16 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 	}
 	
 	/**
+	 * Changes the scale of the isolation force.
+	 * 
+	 * @param fMult  a force multiplier
+	 */
+	public void setIsolationScale(float fMult)
+	{
+		iMult = fMult;
+	}	
+		
+	/**
 	 * Changes the scale of the drag force.
 	 * 
 	 * @param fMult  a force multiplier
@@ -162,7 +161,7 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 	{
 		dMult = fMult;
 	}
-	
+		
 	
 	@Override
 	public Manifold<D> Manifold()

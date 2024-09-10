@@ -38,15 +38,13 @@ public interface LinearImpulse<D extends ImpactDrivable> extends ImpactStrategy<
 		
 		Vector v1 = dyn1.LinSpeed();
 		Vector v2 = dyn2.LinSpeed();
-		
-		
-		float c = Elasticity();
 		Vector v = v2.minus(v1);
 		
 		float vDot = v.dot(p);
 		float pDot = p.dot(p);
 		
 		
+		float c = Elasticity();
 		float pScl = vDot / pDot;
 		
 		Vector w1 = p.times(+ pScl * c);

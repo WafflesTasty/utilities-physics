@@ -38,18 +38,16 @@ public interface LinearMassImpulse<D extends ImpactPowerable> extends ImpactStra
 		
 		Vector v1 = dyn1.LinSpeed();
 		Vector v2 = dyn2.LinSpeed();
+		Vector v = v2.minus(v1);
 		
 		float m1 = dyn1.Mass();
 		float m2 = dyn2.Mass();
-		
-		
-		float c = Elasticity();
-		Vector v = v2.minus(v1);
-		
+
 		float vDot = v.dot(p);
 		float pDot = p.dot(p);
 		
-		
+
+		float c = Elasticity();
 		float mAvg = (m1 + m2) / 2;
 		float pScl = vDot / (pDot * mAvg);
 		
