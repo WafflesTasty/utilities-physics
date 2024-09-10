@@ -1,6 +1,5 @@
 package waffles.utils.phys.drones.linear.types.impact;
 
-import waffles.utils.phys.drones.Impactable;
 import waffles.utils.phys.drones.linear.types.Propellable;
 
 /**
@@ -11,10 +10,10 @@ import waffles.utils.phys.drones.linear.types.Propellable;
  * @version 1.0
  * 
  * 
+ * @see ImpactDrivable
  * @see Propellable
- * @see Impactable
  */
-public interface ImpactPropellable extends Propellable, Impactable
+public interface ImpactPropellable extends ImpactDrivable, Propellable
 {
 	/**
 	 * The {@code ImpactPropellable.Dynamics} combine propellable and impactable dynamics.
@@ -24,10 +23,10 @@ public interface ImpactPropellable extends Propellable, Impactable
 	 * @version 1.1
 	 * 
 	 * 
+	 * @see ImpactDrivable
 	 * @see Propellable
-	 * @see Impactable
 	 */
-	public static interface Dynamics extends Propellable.Dynamics, Impactable.Dynamics
+	public static interface Dynamics extends ImpactDrivable.Dynamics, Propellable.Dynamics
 	{
 		// NOT APPLICABLE
 	}

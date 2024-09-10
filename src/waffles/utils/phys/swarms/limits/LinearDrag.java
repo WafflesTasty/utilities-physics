@@ -2,8 +2,8 @@ package waffles.utils.phys.swarms.limits;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.phys.Strategy;
-import waffles.utils.phys.drones.linear.LinearDynamical;
-import waffles.utils.phys.drones.linear.LinearDynamical.Dynamics;
+import waffles.utils.phys.drones.linear.types.Powerable;
+import waffles.utils.phys.drones.linear.types.Powerable.Dynamics;
 
 /**
  * A {@code LinearDrag} strategy adds a drag force to {@code LinearDynamical} drones.
@@ -14,10 +14,10 @@ import waffles.utils.phys.drones.linear.LinearDynamical.Dynamics;
  *
  *
  * @param <D>  a drone type
- * @see LinearDynamical
+ * @see Powerable
  * @see Strategy
  */
-public interface LinearDrag<D extends LinearDynamical> extends Strategy<D>
+public interface LinearDrag<D extends Powerable> extends Strategy<D>
 {
 	/**
 	 * Returns a drag scale for {@code LinearDrag}.
