@@ -3,6 +3,7 @@ package waffles.utils.phys.drones.linear;
 import waffles.utils.algebra.elements.linear.vector.Vectors;
 import waffles.utils.phys.drones.linear.data.Machine;
 import waffles.utils.phys.drones.linear.types.Powerable;
+import waffles.utils.tools.primitives.Floats;
 
 /**
  * A {@code LinearDynamical} object refreshes its own linear force on each update
@@ -30,6 +31,7 @@ public interface LinearDynamical extends Powerable
 	 */
 	public static class Dynamics extends Machine implements Powerable.Dynamics
 	{
+		private float vMax;
 		private LinearDynamical drone;
 		
 		/**
@@ -40,9 +42,20 @@ public interface LinearDynamical extends Powerable
 		public Dynamics(LinearDynamical d)
 		{
 			super(d.Dimension());
+			vMax = Floats.MAX_VALUE;
 			drone = d;
 		}
 
+		/**
+		 * Changes the max speed of the {@code LinearDynamical.Dynamics}.
+		 * 
+		 * @param max  a maximum speed
+		 */
+		public void setMaxLinSpeed(float max)
+		{
+			vMax = max;
+		}
+		
 		
 		@Override
 		public void onUpdate(long time)
@@ -55,6 +68,12 @@ public interface LinearDynamical extends Powerable
 		public LinearDynamical Drone()
 		{
 			return drone;
+		}
+		
+		@Override
+		public float MaxLinSpeed()
+		{
+			return vMax;
 		}
 	}
 	

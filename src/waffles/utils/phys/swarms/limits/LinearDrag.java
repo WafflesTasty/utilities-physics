@@ -6,7 +6,7 @@ import waffles.utils.phys.drones.linear.types.Powerable;
 import waffles.utils.phys.drones.linear.types.Powerable.Dynamics;
 
 /**
- * A {@code LinearDrag} strategy adds a drag force to {@code LinearDynamical} drones.
+ * A {@code LinearDrag} strategy adds a drag force to {@code Powerable} drones.
  *
  * @author Waffles
  * @since 04 Sep 2024

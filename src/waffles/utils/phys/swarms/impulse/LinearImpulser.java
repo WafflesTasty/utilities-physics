@@ -101,7 +101,7 @@ public class LinearImpulser<D extends ImpactDrivable> extends ImpactSwarm<D>
 	 * 
 	 * @param c  an elasticity coefficient
 	 */
-	public void setBoundedScale(float c)
+	public void setElasticity(float c)
 	{
 		cElast = c;
 	}

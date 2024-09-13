@@ -52,7 +52,7 @@ public class LinearMassImpulser<D extends ImpactPowerable> extends ImpactSwarm<D
 			default:
 				return null;
 			}
-		}		
+		}
 		
 		@Override
 		public float Elasticity()
@@ -99,7 +99,7 @@ public class LinearMassImpulser<D extends ImpactPowerable> extends ImpactSwarm<D
 	 * 
 	 * @param c  an elasticity coefficient
 	 */
-	public void setBoundedScale(float c)
+	public void setElasticity(float c)
 	{
 		cElast = c;
 	}
