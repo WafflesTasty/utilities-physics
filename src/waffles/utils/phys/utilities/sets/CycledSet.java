@@ -6,10 +6,11 @@ import waffles.utils.sets.mutable.JHashSet;
 
 /**
  * A {@code CycledSet} defines a set of objects which are cycled through.
- * With each {@link #cycle()}, this set iterates over all objects which
- * have been assumed since the last {@link #cycle()}, but not
- * in the one previous. This set is used in various
- * impact resolution algorithms.
+ * With each {@link #cycle()}, this set assigns all current objects to the
+ * previous objects, and makes the current set empty. The {@link #iterator()}
+ * traverses over all objects which have been assumed since the last
+ * {@link #cycle()}, but not in the one previous. This set is
+ * used in various impact resolution algorithms.
  * 
  * @author Waffles
  * @since 19 Aug 2024
@@ -17,8 +18,9 @@ import waffles.utils.sets.mutable.JHashSet;
  *
  *
  * @param <O>  an object type
+ * @see Iterable
  */
-public class CycledSet<O>
+public class CycledSet<O> implements Iterable<O>
 {
 	/**
 	 * A {@code Cycle} iterates through the current state of a {@code CycledSet}.
@@ -49,11 +51,7 @@ public class CycledSet<O>
 		private O findNext()
 		{
 			if(!cycle.hasNext())
-			{
-				prev = curr;
-				curr = new JHashSet<>();
 				return null;
-			}
 			
 			next = cycle.next();
 			if(prev.contains(next))
@@ -91,27 +89,36 @@ public class CycledSet<O>
 		prev = new JHashSet<>();
 		curr = new JHashSet<>();
 	}
-		
+	
 	/**
-	 * Assume an object into the {@code CycledSet}.
+	 * Assume an object in the {@code CycledSet}.
 	 * 
 	 * @param obj  a target object
+	 * @return {@code true} if the object is assumed
 	 */
-	public void assume(O obj)
+	public boolean assume(O obj)
 	{
 		if(!curr.contains(obj))
 		{
 			curr.add(obj);
 		}
+		
+		return !prev.contains(obj);
 	}
 
 	/**
 	 * Cycles the state of the {@code CycledSet}.
-	 * 
-	 * @return  a cycle iterable
 	 */
-	public Iterable<O> cycle()
+	public void cycle()
 	{
-		return () -> new Cycle();
+		prev = curr;
+		curr = new JHashSet<>();
+	}
+	
+
+	@Override
+	public Cycle iterator()
+	{
+		return new Cycle();
 	}
 }

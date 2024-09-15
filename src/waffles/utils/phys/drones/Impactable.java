@@ -2,7 +2,6 @@ package waffles.utils.phys.drones;
 
 import waffles.utils.phys.Dynamical;
 import waffles.utils.phys.utilities.sets.CycledSet;
-import waffles.utils.phys.utilities.sets.Impact;
 
 /**
  * An {@code Impactable} object defines impact resolution dynamics.
@@ -35,10 +34,10 @@ public interface Impactable extends Dynamical
 		 * @return  an impact set
 		 * 
 		 * 
+		 * @see Impactable
 		 * @see CycledSet
-		 * @see Impact
 		 */
-		public abstract CycledSet<Impact> Impacts();
+		public abstract CycledSet<Impactable> Impacts();
 	}
 	
 	

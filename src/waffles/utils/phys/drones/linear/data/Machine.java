@@ -17,7 +17,7 @@ import waffles.utils.phys.drones.linear.data.unary.Powered;
  */
 public class Machine extends Propellor implements Powered.Mutable
 {
-	private float mass;
+	private float minv;
 	private Vector vFrc;
 	
 	/**
@@ -29,7 +29,7 @@ public class Machine extends Propellor implements Powered.Mutable
 	{
 		super(dim);
 		vFrc = Vectors.create(dim);
-		mass = 1f;
+		minv = 1f;
 	}
 
 
@@ -42,7 +42,7 @@ public class Machine extends Propellor implements Powered.Mutable
 	@Override
 	public void setMass(float m)
 	{
-		mass = m;
+		minv = 1f / m;
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class Machine extends Propellor implements Powered.Mutable
 	}
 	
 	@Override
-	public float Mass()
+	public float InvMass()
 	{
-		return mass;
+		return minv;
 	}
 }

@@ -1,8 +1,8 @@
 package waffles.utils.phys.drones.linear;
 
+import waffles.utils.phys.drones.Impactable;
 import waffles.utils.phys.drones.linear.types.impact.ImpactPowerable;
 import waffles.utils.phys.utilities.sets.CycledSet;
-import waffles.utils.phys.utilities.sets.Impact;
 
 /**
  * A {@code LinearImpactable} object is {@code LinearDynamical} with an impact set.
@@ -30,7 +30,7 @@ public interface LinearImpactable extends LinearDynamical, ImpactPowerable
 	 */
 	public static class Dynamics extends LinearDynamical.Dynamics implements ImpactPowerable.Dynamics
 	{
-		private CycledSet<Impact> impacts;
+		private CycledSet<Impactable> impacts;
 
 		/**
 		 * Creates a new {@code LinearImpactable.Dynamics}.
@@ -48,7 +48,7 @@ public interface LinearImpactable extends LinearDynamical, ImpactPowerable
 		
 
 		@Override
-		public CycledSet<Impact> Impacts()
+		public CycledSet<Impactable> Impacts()
 		{
 			return impacts;
 		}

@@ -70,9 +70,22 @@ public interface Powered extends Propelled
 	public abstract Vector LinForce();
 	
 	/**
+	 * Returns the inverse mass of the {@code Powered}.
+	 * 
+	 * @return  an inverse mass
+	 */
+	public default float InvMass()
+	{
+		return 1f / Mass();
+	}
+	
+	/**
 	 * Returns the mass of the {@code Powered}.
 	 * 
 	 * @return  an object mass
 	 */
-	public abstract float Mass();
+	public default float Mass()
+	{
+		return 1f / InvMass();
+	}
 }

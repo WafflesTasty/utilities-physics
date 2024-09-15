@@ -3,7 +3,6 @@ package waffles.utils.phys.swarms.isolator;
 import waffles.utils.geom.bounds.Bounds;
 import waffles.utils.geom.collidable.Geometry;
 import waffles.utils.geom.spaces.Manifold;
-import waffles.utils.phys.drones.linear.LinearDetectable;
 import waffles.utils.phys.swarms.PairedSwarm;
 import waffles.utils.phys.swarms.bounds.BoundedForce;
 import waffles.utils.phys.swarms.limits.LinearDrag;
@@ -24,10 +23,10 @@ import waffles.utils.phys.swarms.limits.LinearDrag;
  *
  *
  * @param <D>  a drone type
- * @see LinearDetectable
+ * @see LinearIsolated
  * @see PairedSwarm
  */
-public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
+public class LinearIsolator<D extends LinearIsolated> extends PairedSwarm<D>
 {
 	/**
 	 * A {@code LinearIsolator.Strategy} combines multiple strategies into a basic isolation algorithm.
@@ -53,11 +52,9 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 		public void onPulse(D src, long time)
 		{
 			   BoundedForce.super.onPulse(src, time);
-			LinearIsolation.super.onPulse(src, time);
 				 LinearDrag.super.onPulse(src, time);
 		}
 	
-		
 		@Override
 		public Geometry Bounds(int dim)
 		{
@@ -72,13 +69,7 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 				return null;
 			}
 		}		
-		
-		@Override
-		public float IsolationScale()
-		{
-			return iMult;
-		}
-		
+
 		@Override
 		public float BoundedScale()
 		{
@@ -95,7 +86,6 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 	
 	private float bMult;
 	private float dMult;
-	private float iMult;
 	
 	private Bounds.Type bound;
 	private Manifold<D> manifold;
@@ -115,7 +105,6 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 		
 		bMult = 1f;
 		dMult = 1f;
-		iMult = 1f;
 	}
 	
 	
@@ -141,17 +130,7 @@ public class LinearIsolator<D extends LinearDetectable> extends PairedSwarm<D>
 	{
 		bMult = fMult;
 	}
-	
-	/**
-	 * Changes the scale of the isolation force.
-	 * 
-	 * @param fMult  a force multiplier
-	 */
-	public void setIsolationScale(float fMult)
-	{
-		iMult = fMult;
-	}	
-		
+
 	/**
 	 * Changes the scale of the drag force.
 	 * 

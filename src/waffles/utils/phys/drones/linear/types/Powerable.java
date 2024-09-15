@@ -31,17 +31,6 @@ public interface Powerable extends Propellable, Powered
 	 */
 	public static interface Dynamics extends Propellable.Dynamics, Powered.Mutable
 	{
-		/**
-		 * Returns a force scale for the {@code Dynamics}.
-		 * 
-		 * @return  a force scale
-		 */
-		public default float ForceScale()
-		{
-			return 1f; 
-		}
-		
-		
 		@Override
 		public abstract Powerable Drone();
 
@@ -49,18 +38,17 @@ public interface Powerable extends Propellable, Powered
 		public default void onIntegrate(long time)
 		{
 			float dt = time / 1000f;
-			float mass = Drone().Mass();
-			float fMul = ForceScale() / mass;
+			float fs = time * InvMass();
 			
 			Vector fLin = Drone().LinForce();
 			Vector aLin = Drone().LinAccel();
 			Vector vLin = Drone().LinSpeed();
 			
 			
-			Vector fNew = fLin.times(time * fMul);
-			Vector aNew = aLin.plus(fNew).times(1f / 2);
-			Vector vNew = aLin.plus(aNew).times(dt / 2);
+			Vector aNew = fLin.times(fs);
+			Vector fNew = aLin.plus(aNew).times(1f / 2);
 			Vector xNew = vLin.plus(aLin.times(dt / 2));
+			Vector vNew = fNew.times(dt);
 			
 			float sMax = MaxLinSpeed();
 			float sLin = xNew.norm();
@@ -129,6 +117,12 @@ public interface Powerable extends Propellable, Powered
 	public default Vector LinForce()
 	{
 		return Dynamics().LinForce();
+	}
+	
+	@Override
+	public default float InvMass()
+	{
+		return Dynamics().InvMass();
 	}
 	
 	@Override

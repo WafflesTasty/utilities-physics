@@ -2,7 +2,6 @@ package waffles.utils.phys.swarms.impulse;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.phys.drones.linear.types.impact.ImpactPowerable;
-import waffles.utils.phys.drones.linear.types.impact.ImpactPowerable.Dynamics;
 import waffles.utils.phys.swarms.ImpactStrategy;
 
 /**
@@ -33,15 +32,12 @@ public interface LinearMassImpulse<D extends ImpactPowerable> extends ImpactStra
 	@Override
 	public default void onImpact(D src, D tgt, Vector p, long time)
 	{
-		Dynamics dyn1 = src.Dynamics();
-		Dynamics dyn2 = tgt.Dynamics();
-		
-		Vector v1 = dyn1.LinSpeed();
-		Vector v2 = dyn2.LinSpeed();
+		Vector v1 = src.LinSpeed();
+		Vector v2 = tgt.LinSpeed();
 		Vector v = v2.minus(v1);
 		
-		float m1 = dyn1.Mass();
-		float m2 = dyn2.Mass();
+		float m1 = src.Mass();
+		float m2 = tgt.Mass();
 
 		float vDot = v.dot(p);
 		float pDot = p.dot(p);
@@ -50,11 +46,11 @@ public interface LinearMassImpulse<D extends ImpactPowerable> extends ImpactStra
 		float c = Elasticity();
 		float mAvg = (m1 + m2) / 2;
 		float pScl = vDot / (pDot * mAvg);
-		
+
 		Vector w1 = p.times(+m2 * pScl * c);
 		Vector w2 = p.times(-m1 * pScl * c);
 
-		dyn1.setLinSpeed(v1.plus(w1));
-		dyn2.setLinSpeed(v2.plus(w2));
+		src.speedFor(w1);
+		tgt.speedFor(w2);
 	}
 }

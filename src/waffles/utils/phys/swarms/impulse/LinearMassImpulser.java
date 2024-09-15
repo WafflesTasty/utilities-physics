@@ -53,7 +53,7 @@ public class LinearMassImpulser<D extends ImpactPowerable> extends ImpactSwarm<D
 				return null;
 			}
 		}
-		
+
 		@Override
 		public float Elasticity()
 		{
