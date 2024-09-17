@@ -29,7 +29,15 @@ public interface Dynamical extends Collidable
 	 */
 	public static interface Dynamics extends Dimensional, SynchroEvent
 	{
-		// NOT APPLICABLE
+		/**
+		 * Returns the drone of the {@code Dynamics}.
+		 * 
+		 * @return  a parent drone
+		 * 
+		 * 
+		 * @see Dynamical
+		 */
+		public abstract Dynamical Drone();
 	}
 	
 	

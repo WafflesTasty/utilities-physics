@@ -34,16 +34,16 @@ public interface Drivable extends Dynamical, Driven, Movable
 	 * @see Driven
 	 */
 	public static interface Dynamics extends Dynamical.Dynamics, Driven.Mutable
-	{
+	{	
 		/**
-		 * Returns the drone of the {@code Dynamics}.
+		 * Returns the max linear speed of the {@code Dynamics}.
 		 * 
-		 * @return  a parent drone
-		 * 
-		 * 
-		 * @see Drivable
+		 * @return  a maximum speed
 		 */
-		public abstract Drivable Drone();
+		public default float MaxLinSpeed()
+		{
+			return Floats.MAX_VALUE;
+		}
 		
 		/**
 		 * An event raised on integrating the {@code Dynamics}.
@@ -67,23 +67,16 @@ public interface Drivable extends Dynamical, Driven, Movable
 			vLin = vLin.times(dt);
 			Drone().moveFor(vLin);			
 		}
-		
-		/**
-		 * Returns the maximum linear speed of the {@code Driven}.
-		 * 
-		 * @return  a maximum speed
-		 */
-		public default float MaxLinSpeed()
-		{
-			return Floats.MAX_VALUE;
-		}
-		
+				
 		
 		@Override
 		public default void onUpdate(long time)
 		{
 			onIntegrate(time);
 		}
+
+		@Override
+		public abstract Drivable Drone();
 	}
 		
 	
