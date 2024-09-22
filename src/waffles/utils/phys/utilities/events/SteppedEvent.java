@@ -1,6 +1,7 @@
 package waffles.utils.phys.utilities.events;
 
 import waffles.utils.phys.utilities.Steppable;
+import waffles.utils.tools.patterns.semantics.Idleable;
 
 /**
  * A {@code SteppedEvent} is a pulse event which can be started, stepped and paused.
@@ -12,8 +13,9 @@ import waffles.utils.phys.utilities.Steppable;
  * 
  * @see PulseEvent
  * @see Steppable
+ * @see Idleable
  */
-public abstract class SteppedEvent extends PulseEvent implements Steppable
+public abstract class SteppedEvent extends PulseEvent implements Idleable, Steppable
 {
 	private boolean isRunning;
 	
@@ -26,16 +28,6 @@ public abstract class SteppedEvent extends PulseEvent implements Steppable
 	{
 		super(beat);
 	}
-
-	/**
-	 * Checks the state of the {@code SteppedEvent}.
-	 * 
-	 * @return  {@code true} if running
-	 */
-	public boolean isIdle()
-	{
-		return !isRunning;
-	}
 	
 	
 	@Override
@@ -47,6 +39,11 @@ public abstract class SteppedEvent extends PulseEvent implements Steppable
 		}
 	}
 	
+	@Override
+	public boolean isIdle()
+	{
+		return !isRunning;
+	}
 
 	@Override
 	public void pause()
