@@ -1,7 +1,7 @@
 package waffles.utils.phys.utilities.events.stepped;
 
 import waffles.utils.phys.utilities.Steppable;
-import waffles.utils.phys.utilities.events.PulseEvent;
+import waffles.utils.phys.utilities.events.pulsed.PulsableEvent;
 
 /**
  * A {@code SteppableEvent} is a pulse event which can be started, stepped and paused.
@@ -11,10 +11,10 @@ import waffles.utils.phys.utilities.events.PulseEvent;
  * @version 1.0
  * 
  * 
- * @see PulseEvent
+ * @see PulsableEvent
  * @see Steppable
  */
-public interface SteppableEvent extends PulseEvent, Steppable
+public interface SteppableEvent extends Steppable, PulsableEvent
 {
 	/**
 	 * A {@code Stride} defines the inner mechanism of a {@code SteppableEvent}.
@@ -22,9 +22,6 @@ public interface SteppableEvent extends PulseEvent, Steppable
 	 * @author Waffles
 	 * @since 24 Sep 2024
 	 * @version 1.1
-	 *
-	 * 
-	 * @see PulseEvent
 	 */
 	public static class Stride extends Pulse
 	{
@@ -71,7 +68,7 @@ public interface SteppableEvent extends PulseEvent, Steppable
 	{       
 		if(!Pulse().isIdle())
 		{
-			PulseEvent.super.onUpdate(time);
+			PulsableEvent.super.onUpdate(time);
 		}
 	}
 	
