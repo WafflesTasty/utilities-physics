@@ -11,19 +11,63 @@ package waffles.utils.phys.utilities.events;
  * 
  * @see SynchroEvent
  */
-public abstract class PulseEvent implements SynchroEvent
+public interface PulseEvent extends SynchroEvent
 {
-	private long delta, beat;
-
 	/**
-	 * Creates a new {@code PulseEvent}.
+	 * A {@code Pulse} defines the inner mechanism of a {@code PulseEvent}.
+	 * On each call to {@link #onUpdate(long)}, the {@code Pulse} will perform
+	 * a number of calls to {@link PulseEvent#onPulse(long)} depending on
+	 * the number of beat times that have passed.
+	 *
+	 * @author Waffles
+	 * @since 24 Sep 2024
+	 * @version 1.1
 	 * 
-	 * @param beat  a beat time
+	 * 
+	 * @see SynchroEvent
 	 */
-	public PulseEvent(long beat)
+	public static class Pulse implements SynchroEvent
 	{
-		this.beat = beat;
+		private long delta;
+		private PulseEvent evt;
+		
+		
+		/**
+		 * Creates a new {@code Pulse}.
+		 * 
+		 * @param e  a pulse event
+		 * 
+		 * 
+		 * @see PulseEvent
+		 */
+		public Pulse(PulseEvent e)
+		{
+			evt = e;
+		}
+
+		
+		@Override
+		public void onUpdate(long time)
+		{
+			long beat = evt.BeatTime();
+			
+			
+			delta += time;
+			while(delta >= beat)
+			{
+				evt.onPulse(beat);
+				delta -= beat;
+			}
+		}
 	}
+
+	
+	/**
+	 * Returns the beat time of the {@code PulseEvent}.
+	 * 
+	 * @return  a beat time
+	 */
+	public abstract long BeatTime();
 	
 	/**
 	 * An event raised on pulsing the {@code PulseEvent}.
@@ -31,26 +75,21 @@ public abstract class PulseEvent implements SynchroEvent
 	 * @param beat  a beat time
 	 */
 	public abstract void onPulse(long beat);
-
+	
 	/**
-	 * Returns the beat of the {@code PulseEvent}.
+	 * Returns the pulse of the {@code PulseEvent}.
 	 * 
-	 * @return  a beat time
+	 * @return  a pulse
+	 * 
+	 * 
+	 * @see Pulse
 	 */
-	public long Beat()
-	{
-		return beat;
-	}
+	public abstract Pulse Pulse();
 	
 	
 	@Override
-	public void onUpdate(long time)
+	public default void onUpdate(long time)
 	{
-		delta += time;
-		while(delta >= beat)
-		{
-			delta -= beat;
-			onPulse(beat);
-		}
+		Pulse().onUpdate(time);
 	}
 }
