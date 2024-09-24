@@ -2,7 +2,6 @@ package waffles.utils.phys.utilities.events.stepped;
 
 import waffles.utils.phys.utilities.Steppable;
 import waffles.utils.phys.utilities.events.PulseEvent;
-import waffles.utils.tools.patterns.semantics.Idleable;
 
 /**
  * A {@code SteppableEvent} is a pulse event which can be started, stepped and paused.
@@ -14,45 +13,88 @@ import waffles.utils.tools.patterns.semantics.Idleable;
  * 
  * @see PulseEvent
  * @see Steppable
- * @see Idleable
  */
-public interface SteppableEvent extends PulseEvent, Idleable, Steppable
+public interface SteppableEvent extends PulseEvent, Steppable
 {
 	/**
-	 * Changes the idle state of the {@code SteppedEvent}.
+	 * A {@code Stride} defines the inner mechanism of a {@code SteppableEvent}.
+	 *
+	 * @author Waffles
+	 * @since 24 Sep 2024
+	 * @version 1.1
+	 *
 	 * 
-	 * @param isIdle  an idle state
+	 * @see PulseEvent
 	 */
-	public abstract void setIdle(boolean isIdle);
+	public static class Stride extends Pulse
+	{
+		private boolean isIdle;
+		
+		/**
+		 * Creates a new {@code Stride}.
+		 * 
+		 * @param e  a steppable event
+		 * 
+		 * 
+		 * @see SteppableEvent
+		 */
+		public Stride(SteppableEvent e)
+		{
+			super(e);
+			isIdle = true;
+		}
+		
+		/**
+		 * Changes the idle state of the {@code Stride}.
+		 * 
+		 * @param isIdle  an idle state
+		 */
+		public void setIdle(boolean isIdle)
+		{
+			this.isIdle = isIdle;
+		}
+		
+		/**
+		 * Returns the idle state of the {@code Stride}.
+		 * 
+		 * @return  an idle state
+		 */
+		public boolean isIdle()
+		{
+			return isIdle;
+		}
+	}
 	
 	
 	@Override
 	public default void onUpdate(long time)
 	{       
-		if(!isIdle())
+		if(!Pulse().isIdle())
 		{
 			PulseEvent.super.onUpdate(time);
 		}
 	}
-
+	
+	@Override
+	public abstract Stride Pulse();
+	
 	
 	@Override
 	public default void pause()
 	{
-		setIdle(true);
+		Pulse().setIdle(true);
 	}
 	
 	@Override
 	public default void step()
 	{
-		setIdle(false);
-		onUpdate(BeatTime());
-		setIdle(true);
+		Pulse().setIdle(true);
+		onPulse(BeatTime());
 	}
 
 	@Override
 	public default void run()
 	{
-		setIdle(false);
+		Pulse().setIdle(false);
 	}
 }

@@ -13,8 +13,7 @@ package waffles.utils.phys.utilities.events.stepped;
 public abstract class SteppedEvent implements SteppableEvent
 {
 	private long beat;
-	private Pulse pulse;
-	private boolean isIdle;
+	private Stride stride;
 	
 	/**
 	 * Creates a new {@code SteppedEvent}.
@@ -23,8 +22,7 @@ public abstract class SteppedEvent implements SteppableEvent
 	 */
 	public SteppedEvent(long b)
 	{
-		pulse = new Pulse(this);
-		isIdle = true;
+		stride = new Stride(this);
 		beat = b;
 	}
 	
@@ -37,20 +35,7 @@ public abstract class SteppedEvent implements SteppableEvent
 		this(33);
 	}
 
-	
-	@Override
-	public void setIdle(boolean isIdle)
-	{
-		this.isIdle = isIdle;
-	}
 
-	@Override
-	public boolean isIdle()
-	{
-		return isIdle;
-	}
-		
-	
 	@Override
 	public long BeatTime()
 	{
@@ -58,8 +43,8 @@ public abstract class SteppedEvent implements SteppableEvent
 	}
 
 	@Override
-	public Pulse Pulse()
+	public Stride Pulse()
 	{
-		return pulse;
+		return stride;
 	}
 }
