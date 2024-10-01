@@ -2,6 +2,7 @@ package waffles.utils.phys.utilities.events.stepped;
 
 import waffles.utils.phys.utilities.Steppable;
 import waffles.utils.phys.utilities.events.pulsed.PulsableEvent;
+import waffles.utils.tools.patterns.semantics.Idleable;
 
 /**
  * A {@code SteppableEvent} is a pulse event which can be started, stepped and paused.
@@ -14,7 +15,7 @@ import waffles.utils.phys.utilities.events.pulsed.PulsableEvent;
  * @see PulsableEvent
  * @see Steppable
  */
-public interface SteppableEvent extends Steppable, PulsableEvent
+public interface SteppableEvent extends Steppable, PulsableEvent, Idleable
 {
 	/**
 	 * A {@code Stride} defines the inner mechanism of a {@code SteppableEvent}.
@@ -22,8 +23,11 @@ public interface SteppableEvent extends Steppable, PulsableEvent
 	 * @author Waffles
 	 * @since 24 Sep 2024
 	 * @version 1.1
+	 * 
+	 * 
+	 * @see Idleable
 	 */
-	public static class Stride extends Pulse
+	public static class Stride extends Pulse implements Idleable
 	{
 		private boolean isIdle;
 		
@@ -50,12 +54,9 @@ public interface SteppableEvent extends Steppable, PulsableEvent
 		{
 			this.isIdle = isIdle;
 		}
-		
-		/**
-		 * Returns the idle state of the {@code Stride}.
-		 * 
-		 * @return  an idle state
-		 */
+
+
+		@Override
 		public boolean isIdle()
 		{
 			return isIdle;
@@ -64,9 +65,15 @@ public interface SteppableEvent extends Steppable, PulsableEvent
 	
 	
 	@Override
+	public default boolean isIdle()
+	{
+		return Pulse().isIdle();
+	}
+	
+	@Override
 	public default void onUpdate(long time)
 	{       
-		if(!Pulse().isIdle())
+		if(!isIdle())
 		{
 			PulsableEvent.super.onUpdate(time);
 		}
