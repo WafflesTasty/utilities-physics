@@ -186,6 +186,12 @@ public interface PartialDynamical extends Twistable, Powerable
 		{
 			return tractor.Dimension();
 		}
+		
+		@Override
+		public float InvMass()
+		{
+			return tractor.InvMass();
+		}
 	}
 	
 	
