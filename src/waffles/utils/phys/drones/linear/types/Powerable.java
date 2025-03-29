@@ -18,7 +18,7 @@ import waffles.utils.tools.primitives.Floats;
 public interface Powerable extends Propellable, Powered
 {
 	/**
-	 * The {@code Powerable.Dynamics} updates the position of a {@code Drivable}
+	 * The {@code Powerable.Dynamics} updates the position of a {@code Powerable}
 	 * through velocity verlet integration in classical mechanics.
 	 *
 	 * @author Waffles

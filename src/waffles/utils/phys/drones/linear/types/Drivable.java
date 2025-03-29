@@ -4,7 +4,6 @@ import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.geom.spatial.types.Movable;
 import waffles.utils.phys.Dynamical;
 import waffles.utils.phys.drones.linear.data.unary.Driven;
-import waffles.utils.phys.utilities.events.SynchroEvent;
 import waffles.utils.tools.primitives.Floats;
 
 /**
@@ -30,7 +29,7 @@ public interface Drivable extends Dynamical, Driven, Movable
 	 * @version 1.1
 	 *
 	 * 
-	 * @see SynchroEvent
+	 * @see Dynamical
 	 * @see Driven
 	 */
 	public static interface Dynamics extends Dynamical.Dynamics, Driven.Mutable

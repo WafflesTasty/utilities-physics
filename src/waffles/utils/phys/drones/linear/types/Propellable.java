@@ -18,7 +18,7 @@ import waffles.utils.tools.primitives.Floats;
 public interface Propellable extends Drivable, Propelled
 {
 	/**
-	 * The {@code Propellable.Dynamics} updates the position of a {@code Drivable}
+	 * The {@code Propellable.Dynamics} updates the position of a {@code Propellable}
 	 * through basic linear integration according to a speed and acceleration vector.
 	 *
 	 * @author Waffles

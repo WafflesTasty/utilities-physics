@@ -25,8 +25,8 @@ public interface Powerable2D extends Powerable, Propellable2D
 	/**
 	 * Powers the {@code Powerable2D} for a linear vector.
 	 * 
-	 * @param x  a linear speed x
-	 * @param y  a linear speed y
+	 * @param x  a linear force x
+	 * @param y  a linear force y
 	 */
 	public default void powerFor(float x, float y)
 	{
@@ -36,8 +36,8 @@ public interface Powerable2D extends Powerable, Propellable2D
 	/**
 	 * Powers the {@code Powerable2D} to a linear vector.
 	 * 
-	 * @param x  a linear speed x
-	 * @param y  a linear speed y
+	 * @param x  a linear force x
+	 * @param y  a linear force y
 	 */
 	public default void powerTo(float x, float y)
 	{

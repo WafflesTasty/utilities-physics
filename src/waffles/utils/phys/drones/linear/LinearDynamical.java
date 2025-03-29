@@ -1,7 +1,7 @@
 package waffles.utils.phys.drones.linear;
 
 import waffles.utils.algebra.elements.linear.vector.Vectors;
-import waffles.utils.phys.drones.linear.data.Machine;
+import waffles.utils.phys.drones.linear.data.Tractor;
 import waffles.utils.phys.drones.linear.types.Powerable;
 import waffles.utils.tools.primitives.Floats;
 
@@ -29,7 +29,7 @@ public interface LinearDynamical extends Powerable
 	 * 
 	 * @see Powerable
 	 */
-	public static class Dynamics extends Machine implements Powerable.Dynamics
+	public static class Dynamics extends Tractor implements Powerable.Dynamics
 	{
 		private float vMax;
 		private LinearDynamical drone;
