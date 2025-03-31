@@ -51,7 +51,7 @@ public interface Propellable extends Drivable, Propelled
 			float sMax = MaxLinSpeed();
 			float sLin = xNew.norm();
 			
-			if(sLin < sMax)
+			if(sMax < sLin)
 			{
 				xNew = xNew.times(sMax / sLin);
 			}

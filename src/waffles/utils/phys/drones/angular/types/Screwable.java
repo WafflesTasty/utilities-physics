@@ -57,7 +57,7 @@ public interface Screwable extends Dynamical, Screwed, Rotatable
 			float sMax = MaxAngSpeed();
 			float sAng = vAng.MaxAngle();
 			
-			if(sAng < sMax)
+			if(sMax < sAng)
 			{
 				vAng = vAng.times(sMax / sAng);
 			}

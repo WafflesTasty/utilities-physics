@@ -50,8 +50,8 @@ public interface Twistable extends Screwable, Twisted
 			
 			float sMax = MaxAngSpeed();
 			float sLin = xNew.MaxAngle();
-			
-			if(sLin < sMax)
+
+			if(sMax < sLin)
 			{
 				xNew = xNew.times(sMax / sLin);
 			}

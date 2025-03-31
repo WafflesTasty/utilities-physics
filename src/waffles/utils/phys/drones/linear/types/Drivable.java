@@ -57,7 +57,7 @@ public interface Drivable extends Dynamical, Driven, Movable
 			float sMax = MaxLinSpeed();
 			float sLin = vLin.norm();
 			
-			if(sLin < sMax)
+			if(sMax < sLin)
 			{
 				vLin = vLin.times(sMax / sLin);
 			}

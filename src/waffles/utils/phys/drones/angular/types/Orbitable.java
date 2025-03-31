@@ -58,7 +58,7 @@ public interface Orbitable extends Twistable, Orbital
 			float sMax = MaxLinSpeed();
 			float sLin = xNew.norm();
 			
-			if(sLin > sMax)
+			if(sMax > sLin)
 			{
 				xNew = xNew.times(sMax / sLin);
 			}
