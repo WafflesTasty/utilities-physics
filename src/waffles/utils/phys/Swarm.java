@@ -1,7 +1,7 @@
 package waffles.utils.phys;
 
-import waffles.utils.geom.spaces.Manifold;
 import waffles.utils.phys.utilities.events.SynchroEvent;
+import waffles.utils.sets.mutable.AtomicSet;
 import waffles.utils.sets.queues.Queue;
 import waffles.utils.sets.queues.delegate.JFIFOQueue;
 
@@ -37,9 +37,9 @@ public abstract class Swarm<D extends Dynamical> implements Strategy<D>, Synchro
 	 * @return  a swarm manifold
 	 * 
 	 * 
-	 * @see Manifold
+	 * @see AtomicSet
 	 */
-	public abstract Manifold<D> Manifold();
+	public abstract AtomicSet<D> Manifold();
 	
 	/**
 	 * Returns the strategy of the {@code Swarm}.

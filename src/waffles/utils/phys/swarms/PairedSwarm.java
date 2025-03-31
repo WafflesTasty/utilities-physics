@@ -2,6 +2,7 @@ package waffles.utils.phys.swarms;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
 import waffles.utils.geom.Collision.Response;
+import waffles.utils.geom.spaces.Manifold;
 import waffles.utils.phys.Dynamical;
 import waffles.utils.phys.Swarm;
 import waffles.utils.sets.keymaps.Pair;
@@ -34,6 +35,9 @@ public abstract class PairedSwarm<D extends Dynamical> extends Swarm<D> implemen
 		return null;
 	}
 	
+	
+	@Override
+	public abstract Manifold<D> Manifold();
 	
 	@Override
 	public void onHit(D src, D tgt, Vector pnt, long time)
