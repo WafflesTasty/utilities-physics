@@ -1,7 +1,6 @@
 package waffles.utils.phys.drones.angular.data;
 
-import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.algebra.elements.linear.vector.Vectors;
+import waffles.utils.geom.spatial.data.spin.Spin;
 import waffles.utils.phys.drones.angular.data.unary.Orbital;
 
 /**
@@ -18,7 +17,7 @@ import waffles.utils.phys.drones.angular.data.unary.Orbital;
 public class Orbit extends Gear implements Orbital.Mutable
 {
 	private float iInv;
-	private Vector vFrc;
+	private Spin sFrc;
 	
 	/**
 	 * Creates a new {@code Orbit}.
@@ -28,21 +27,21 @@ public class Orbit extends Gear implements Orbital.Mutable
 	public Orbit(int dim)
 	{
 		super(dim);
-		vFrc = Vectors.create(dim);
+		sFrc = Spin.create(dim);
 		iInv = 1f;
 	}
 
 	
 	@Override
-	public Vector AngForce()
+	public Spin AngForce()
 	{
-		return vFrc;
+		return sFrc;
 	}
 
 	@Override
-	public void setAngForce(Vector f)
+	public void setAngForce(Spin s)
 	{
-		vFrc = f;
+		sFrc = s;
 	}
 	
 	@Override

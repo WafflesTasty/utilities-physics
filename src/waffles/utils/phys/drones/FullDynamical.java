@@ -85,8 +85,8 @@ public interface FullDynamical extends Orbitable, Powerable
 		public void onUpdate(long time)
 		{
 			onIntegrate(time);
+			setAngForce(Spin.create(Dimension()));
 			setLinForce(Vectors.create(Dimension()));
-			setAngForce(Vectors.create(Dimension()));
 		}
 		
 		@Override
@@ -122,15 +122,15 @@ public interface FullDynamical extends Orbitable, Powerable
 		}
 
 		@Override
-		public void setAngAccel(Spin a)
+		public void setAngAccel(Spin s)
 		{
-			orbit.setAngAccel(a);
+			orbit.setAngAccel(s);
 		}
 
 		@Override
-		public void setAngForce(Vector f)
+		public void setAngForce(Spin s)
 		{
-			orbit.setAngForce(f);
+			orbit.setAngForce(s);
 		}
 
 		@Override
@@ -183,7 +183,7 @@ public interface FullDynamical extends Orbitable, Powerable
 		}
 		
 		@Override
-		public Vector AngForce()
+		public Spin AngForce()
 		{
 			return orbit.AngForce();
 		}

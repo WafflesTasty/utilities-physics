@@ -1,6 +1,7 @@
 package waffles.utils.phys.drones.angular.data.unary;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.spatial.data.spin.Spin;
 
 /**
  * An {@code Orbital} object defines an angular force vector.
@@ -30,25 +31,25 @@ public interface Orbital extends Twisted
 		/**
 		 * Adds an angular force to the {@code Orbital}.
 		 * 
-		 * @param f  an angular force
+		 * @param s  an angular force
 		 * 
 		 * 
-		 * @see Vector
+		 * @see Spin
 		 */
-		public default void addAngForce(Vector f)
+		public default void addAngForce(Spin s)
 		{
-			setAngForce(AngForce().plus(f));
+			setAngForce(AngForce().compose(s));
 		}
 		
 		/**
 		 * Changes the angular force of the {@code Orbital}.
 		 * 
-		 * @param f  an angular force
+		 * @param s  an angular force
 		 * 
 		 * 
 		 * @see Vector
 		 */
-		public abstract void setAngForce(Vector f);
+		public abstract void setAngForce(Spin s);
 		
 		/**
 		 * Changes the inertia of the {@code Orbital}.
@@ -65,9 +66,9 @@ public interface Orbital extends Twisted
 	 * @return  an angular force
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Spin
 	 */
-	public abstract Vector AngForce();
+	public abstract Spin AngForce();
 	
 	/**
 	 * Returns the inverse inertia of the {@code Orbital}.

@@ -55,7 +55,7 @@ public interface Screwable extends Dynamical, Screwed, Rotatable
 			
 			Spin vAng = AngSpeed();
 			float sMax = MaxAngSpeed();
-			float sAng = vAng.MaxAngle();
+			float sAng = vAng.norm();
 			
 			if(sMax < sAng)
 			{
@@ -105,8 +105,7 @@ public interface Screwable extends Dynamical, Screwed, Rotatable
 	{
 		if(!Floats.isZero(s, 1))
 		{
-			float a = v.MaxAngle();
-			screwFor(v.times(s / a));
+			screwFor(v.times(s / v.norm()));
 		}
 	}
 	

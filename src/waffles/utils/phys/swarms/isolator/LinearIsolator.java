@@ -77,7 +77,7 @@ public class LinearIsolator<D extends LinearIsolated> extends PairedSwarm<D>
 		}
 
 		@Override
-		public float DragScale()
+		public float LinDragScale()
 		{
 			return dMult;
 		}

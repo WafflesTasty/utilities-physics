@@ -1,9 +1,7 @@
 package waffles.utils.phys.drones.angular.types;
 
-import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.geom.spatial.data.spin.Spin;
 import waffles.utils.phys.drones.angular.data.unary.Orbital;
-import waffles.utils.tools.errors.NotImplementedError;
-import waffles.utils.tools.primitives.Floats;
 
 /**
  * An {@code Orbitable} object can maintain its own angular force.
@@ -38,92 +36,70 @@ public interface Orbitable extends Twistable, Orbital
 		@Override
 		public default void onIntegrate(long time)
 		{
-			// TODO: Rotational integration via torque.
-			throw new NotImplementedError();
-			
-			/*
 			float dt = time / 1000f;
 			float fs = time * InvInertia();
 			
-			Vector fLin = Drone().LinForce();
-			Vector aLin = Drone().LinAccel();
-			Vector vLin = Drone().LinSpeed();
+			Spin fRot = Drone().AngForce();
+			Spin aRot = Drone().AngAccel();
+			Spin vRot = Drone().AngSpeed();
 			
 			
-			Vector aNew = fLin.times(fs);
-			Vector fNew = aLin.plus(aNew).times(1f / 2);
-			Vector xNew = vLin.plus(aLin.times(dt / 2));
-			Vector vNew = fNew.times(dt);
+			Spin aNew = fRot.times(fs);
+			Spin fNew = aRot.compose(aNew).times(1f / 2);
+			Spin xNew = vRot.compose(aRot.times(dt / 2));
+			Spin vNew = fNew.times(dt);
 			
-			float sMax = MaxLinSpeed();
-			float sLin = xNew.norm();
+			float sMax = MaxAngSpeed();
+			float sRot = xNew.norm();
 			
-			if(sMax > sLin)
+			if(sMax > sRot)
 			{
-				xNew = xNew.times(sMax / sLin);
+				xNew = xNew.times(sMax / sRot);
 			}
 			
 			xNew = xNew.times(dt);
-			Drone().propelTo(aNew);
-			Drone().speedFor(vNew);
-			Drone().moveFor(xNew);
-			*/
+			Drone().orbitTo(aNew);
+			Drone().twistFor(vNew);
+			Drone().screwFor(xNew);
 		}
 	}
 
 
 	/**
-	 * Orbits the {@code Orbitable} to an angular vector.
+	 * Orbits the {@code Orbitable} to an angular spin.
 	 * 
-	 * @param f  an angular force
+	 * @param s  an angular force
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Spin
 	 */
-	public default void orbitTo(Vector f)
+	public default void orbitTo(Spin s)
 	{
-		Dynamics().setAngForce(f);
+		Dynamics().setAngForce(s);
 	}
-		
+
 	/**
-	 * Orbits the {@code Orbitable} for an angular vector.
+	 * Orbits the {@code Orbitable} for an angular spin.
 	 * 
-	 * @param f  an angular force
-	 * @param s  a force scale
+	 * @param s  an angular force
 	 * 
 	 * 
-	 * @see Vector
+	 * @see Spin
 	 */
-	public default void orbitFor(Vector f, float s)
+	public default void orbitFor(Spin s)
 	{
-		if(!Floats.isZero(s, 1))
-		{
-			orbitFor(f.normalize().times(s));
-		}
-	}
-	
-	/**
-	 * Orbits the {@code Orbitable} for a angular vector.
-	 * 
-	 * @param f  an angular force
-	 * 
-	 * 
-	 * @see Vector
-	 */
-	public default void orbitFor(Vector f)
-	{
-		orbitTo(AngForce().plus(f));
+		orbitFor(AngForce().compose(s));
 	}
 
 	
 	@Override
-	public abstract Dynamics Dynamics();
-
-	@Override
-	public default Vector AngForce()
+	public default Spin AngForce()
 	{
 		return Dynamics().AngForce();
 	}
+	
+	@Override
+	public abstract Dynamics Dynamics();
 	
 	@Override
 	public default float InvInertia()

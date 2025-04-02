@@ -49,7 +49,7 @@ public interface Twistable extends Screwable, Twisted
 			Spin xNew = vAng.compose(xDif);
 			
 			float sMax = MaxAngSpeed();
-			float sLin = xNew.MaxAngle();
+			float sLin = xNew.norm();
 
 			if(sMax < sLin)
 			{
@@ -90,8 +90,7 @@ public interface Twistable extends Screwable, Twisted
 	{
 		if(!Floats.isZero(s, 1))
 		{
-			float ang = a.MaxAngle();
-			twistFor(a.times(s / ang));
+			twistFor(a.times(s / a.norm()));
 		}
 	}
 	

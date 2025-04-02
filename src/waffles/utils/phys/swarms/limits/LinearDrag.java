@@ -26,7 +26,7 @@ public interface LinearDrag<D extends Powerable> extends Strategy<D>
 	 * 
 	 * @return  a drag coefficient
 	 */
-	public default float DragScale()
+	public default float LinDragScale()
 	{
 		return 1f;
 	}
@@ -36,7 +36,7 @@ public interface LinearDrag<D extends Powerable> extends Strategy<D>
 	 * 
 	 * @return  a minimum speed
 	 */
-	public default float MinDragSpeed()
+	public default float MinLinDragSpeed()
 	{
 		return 0f;
 	}
@@ -45,13 +45,13 @@ public interface LinearDrag<D extends Powerable> extends Strategy<D>
 	@Override
 	public default void onPulse(D src, long time)
 	{
-		float vMin = MinDragSpeed();
+		float vMin = MinLinDragSpeed();
 		Vector vLin = src.LinSpeed();
 		float nSqr = vLin.normSqr();
 			
 		if(nSqr > vMin * vMin)
 		{
-			float cDrg = DragScale();
+			float cDrg = LinDragScale();
 			Vector vFrc = vLin.times(-cDrg);
 			Dynamics dyn = src.Dynamics();
 			dyn.addLinForce(vFrc);
