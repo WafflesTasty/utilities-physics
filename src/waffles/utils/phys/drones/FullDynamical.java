@@ -8,6 +8,8 @@ import waffles.utils.phys.drones.angular.data.Orbit;
 import waffles.utils.phys.drones.angular.types.Orbitable;
 import waffles.utils.phys.drones.linear.data.Tractor;
 import waffles.utils.phys.drones.linear.types.Powerable;
+import waffles.utils.phys.drones.scalar.data.Squeeze;
+import waffles.utils.phys.drones.scalar.types.Pressable;
 import waffles.utils.tools.primitives.Floats;
 
 /**
@@ -20,10 +22,11 @@ import waffles.utils.tools.primitives.Floats;
  * @version 1.0
  * 
  * 
+ * @see Pressable
  * @see Orbitable
  * @see Powerable
  */
-public interface FullDynamical extends Orbitable, Powerable
+public interface FullDynamical extends Orbitable, Powerable, Pressable
 {
 	/**
 	 * The {@code LinearDynamical.Dynamics} refreshes its linear force on update.
@@ -36,10 +39,11 @@ public interface FullDynamical extends Orbitable, Powerable
 	 * @see Orbitable
 	 * @see Powerable
 	 */
-	public static class Dynamics implements Orbitable.Dynamics, Powerable.Dynamics
+	public static class Dynamics implements Orbitable.Dynamics, Powerable.Dynamics, Pressable.Dynamics
 	{
-		private float lMax, aMax;
+		private float lMax, sMax, aMax;
 		private FullDynamical drone;
+		private Squeeze press;
 		private Tractor tractor;
 		private Orbit orbit;
 		
@@ -53,13 +57,17 @@ public interface FullDynamical extends Orbitable, Powerable
 		 */
 		public Dynamics(FullDynamical d)
 		{
+			press = new Squeeze(d.Dimension());
 			tractor = new Tractor(d.Dimension());
 			orbit = new Orbit(d.Dimension());
+			
 			lMax = Floats.MAX_VALUE;
+			sMax = Floats.MAX_VALUE;
 			aMax = Floats.MAX_VALUE;
+			
 			drone = d;
 		}
-
+		
 		/**
 		 * Changes the max linear speed of the {@code FullDynamical.Dynamics}.
 		 * 
@@ -68,6 +76,16 @@ public interface FullDynamical extends Orbitable, Powerable
 		public void setMaxLinSpeed(float max)
 		{
 			lMax = max;
+		}
+		
+		/**
+		 * Changes the max scalar speed of the {@code FullDynamical.Dynamics}.
+		 * 
+		 * @param max  a maximum speed
+		 */
+		public void setMaxPinSpeed(float max)
+		{
+			sMax = max;
 		}
 		
 		/**
@@ -87,11 +105,13 @@ public interface FullDynamical extends Orbitable, Powerable
 			onIntegrate(time);
 			setAngForce(Spin.create(Dimension()));
 			setLinForce(Vectors.create(Dimension()));
+			setPinForce(Vectors.create(Dimension()));
 		}
 		
 		@Override
 		public void onIntegrate(long time)
 		{
+//			Pressable.Dynamics.super.onIntegrate(time);
 			Orbitable.Dynamics.super.onIntegrate(time);
 			Powerable.Dynamics.super.onIntegrate(time);
 		}
@@ -113,6 +133,24 @@ public interface FullDynamical extends Orbitable, Powerable
 		public void setLinForce(Vector f)
 		{
 			tractor.setLinForce(f);
+		}
+		
+		@Override
+		public void setPinSpeed(Vector v)
+		{
+			press.setPinSpeed(v);
+		}
+		
+		@Override
+		public void setPinAccel(Vector a)
+		{
+			press.setPinAccel(a);
+		}
+		
+		@Override
+		public void setPinForce(Vector f)
+		{
+			press.setPinForce(f);
 		}
 		
 		@Override
@@ -147,9 +185,33 @@ public interface FullDynamical extends Orbitable, Powerable
 
 		
 		@Override
+		public float Mass()
+		{
+			return tractor.Mass();
+		}
+		
+		@Override
+		public float InvMass()
+		{
+			return tractor.InvMass();
+		}
+		
+		@Override
+		public float InvInertia()
+		{
+			return orbit.InvInertia();
+		}
+		
+		@Override
 		public float MaxLinSpeed()
 		{
 			return lMax;
+		}
+		
+		@Override
+		public float MaxPinSpeed()
+		{
+			return sMax;
 		}
 		
 		@Override
@@ -183,6 +245,24 @@ public interface FullDynamical extends Orbitable, Powerable
 		}
 		
 		@Override
+		public Vector PinSpeed()
+		{
+			return press.PinSpeed();
+		}
+		
+		@Override
+		public Vector PinAccel()
+		{
+			return press.PinAccel();
+		}
+		
+		@Override
+		public Vector PinForce()
+		{
+			return press.PinForce();
+		}
+		
+		@Override
 		public Spin AngForce()
 		{
 			return orbit.AngForce();
@@ -199,7 +279,7 @@ public interface FullDynamical extends Orbitable, Powerable
 		{
 			return orbit.AngAccel();
 		}
-
+		
 		@Override
 		public int Dimension()
 		{
@@ -207,6 +287,18 @@ public interface FullDynamical extends Orbitable, Powerable
 		}
 	}
 	
+	
+	@Override
+	public default float Mass()
+	{
+		return Dynamics().Mass();
+	}
+	
+	@Override
+	public default float InvMass()
+	{
+		return Dynamics().InvMass();
+	}
 	
 	@Override
 	public abstract Dynamics Dynamics();

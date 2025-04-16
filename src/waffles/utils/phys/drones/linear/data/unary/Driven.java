@@ -12,6 +12,7 @@ import waffles.utils.tools.patterns.semantics.Immutable;
  * @version 1.0
  * 
  * 
+ * @see Dimensional
  * @see Immutable
  */
 public interface Driven extends Immutable, Dimensional
