@@ -1,7 +1,6 @@
 package waffles.utils.phys.drones.scalar.types;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
-import waffles.utils.algebra.elements.linear.vector.Vectors;
 import waffles.utils.geom.spatial.types.Scalable;
 import waffles.utils.phys.Dynamical;
 import waffles.utils.phys.drones.linear.data.unary.Driven;
@@ -60,14 +59,19 @@ public interface Pinchable extends Dynamical, Pinched, Scalable
 			float sLin = vLin.norm();
 			int dim = vLin.Size();
 			
-			Vector vOne = Vectors.create(1f, dim);
 			if(sMax < sLin)
 			{
 				vLin = vLin.times(sMax / sLin);
 			}
 			
 			vLin = vLin.times(dt);
-			vLin = vLin.plus(vOne);
+			for(int i = 0; i < vLin.Size(); i++)
+			{
+				float v = vLin.get(i);
+				v = Floats.pow(Floats.EULER, v / 2);
+				vLin.set(v, i);
+			}
+			
 			Drone().scaleFor(vLin);			
 		}
 				
