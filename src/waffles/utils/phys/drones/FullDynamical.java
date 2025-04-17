@@ -111,7 +111,7 @@ public interface FullDynamical extends Orbitable, Powerable, Pressable
 		@Override
 		public void onIntegrate(long time)
 		{
-//			Pressable.Dynamics.super.onIntegrate(time);
+			Pressable.Dynamics.super.onIntegrate(time);
 			Orbitable.Dynamics.super.onIntegrate(time);
 			Powerable.Dynamics.super.onIntegrate(time);
 		}

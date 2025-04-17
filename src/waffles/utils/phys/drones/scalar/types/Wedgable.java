@@ -1,6 +1,7 @@
 package waffles.utils.phys.drones.scalar.types;
 
 import waffles.utils.algebra.elements.linear.vector.Vector;
+import waffles.utils.algebra.elements.linear.vector.Vectors;
 import waffles.utils.phys.drones.scalar.data.unary.Wedged;
 import waffles.utils.tools.primitives.Floats;
 
@@ -58,13 +59,8 @@ public interface Wedgable extends Pinchable, Wedged
 			}
 			
 			
-			xNew = xNew.times(dt);
-			for(int i = 0; i < xNew.Size(); i++)
-			{
-				float x = xNew.get(i);
-				x = Floats.pow(Floats.EULER, x / 2);
-				vLin.set(x, i);
-			}
+			Vector one = Vectors.create(1f, dim);
+			xNew = one.plus(xNew.times(dt));
 
 			Drone().pinchFor(vNew);
 			Drone().scaleFor(xNew);
